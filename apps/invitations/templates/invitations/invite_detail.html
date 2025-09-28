@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+
+{% block title %}Convite para {{ invite.guest.first_name }}{% endblock %}
+
+{% block content %}
+<style>
+    .qr-code {
+      background: #fff;
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 0 8px #eee;
+      display: inline-block;
+    }
+    .qr-code svg rect {
+      fill: #000 !important;
+    }
+    .thanks-container {
+        margin-top: 20px;
+        padding: 15px;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+    }
+    .message.success {
+        color: green;
+    }
+    .message.declined {
+        color: #888;
+    }
+    .memories-container {
+        margin: 20px 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+    }
+    .memory-image {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+    }
+    .memory-image:hover {
+        transform: scale(1.05);
+    }
+    .memories-title {
+        text-align: center;
+        margin-top: 20px;
+        color: #555;
+    }
+</style>
+
+<div class="invite-card">
+    <!-- Seção de Cabeçalho e Identificação -->
+    <header class="invite-header">
+        <h1 class="guest-name">
+            {{ invite.guest.first_name|default:"" }}
+            {{ invite.guest.last_name|default:"" }}
+            ("{{ invite.guest.nickname|default:"" }}")
+        </h1>
+
+        <!-- Perfil do Convidado -->
+        <div class="guest-profile">
+            {% if invite.guest.avatar_url %}
+            <img src="{{ invite.guest.avatar_url }}" alt="{{ invite.guest.first_name }}" class="profile-picture">
+            {% endif %}
+
+            {% if invite.guest.emoji %}
+            <div class="emoji">{{ invite.guest.emoji }}</div>
+            {% endif %}
+        </div>
+    </header>
+
+    <!-- Seção de Mensagem Personalizada -->
+    <section class="message-section">
+        <div class="personalized-message">
+            {{ invite.guest.personalized_message|default:"Temos o prazer de convidá-lo(a) para nosso evento!" }}
+        </div>
+    </section>
+
+    <!-- Seção de QR Code -->
+    <section class="qr-code-section">
+        {% if invite.qr_code_id %}
+        <div class="qr-code">
+            <h3>QR Code do Convite</h3>
+            <img src="{{ invite.get_qr_code_url }}" alt="QR Code do Convite" width="200" height="200">
+        </div>
+        {% else %}
+        <p>QR Code não disponível.</p>
+        {% endif %}
+    </section>
+
+    <!-- Seção de Memórias -->
+    {% if invite.guest.memories_urls %}
+    <section class="memories-section">
+        <h3 class="memories-title">Recordações</h3>
+        <div class="memories-container">
+            {% for memory_url in invite.guest.memories_urls %}
+            <img src="{{ memory_url }}" alt="Recordação de {{ invite.guest.first_name }}" class="memory-image">
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Seção de Vídeo Pré-confirmação -->
+    {% if invite.pre_confirmation_video_url %}
+    <section class="video-section pre-confirmation">
+        <h3>Vídeo</h3>
+        <div class="video-container">
+            <iframe src="{{ invite.pre_confirmation_video_url }}" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Seção de RSVP ou Agradecimento -->
+    <section class="response-section">
+        {% if invite.invitation_status == 'pending' %}
+        <div class="rsvp-section">
+            <h2>Confirmação de Presença</h2>
+            <form method="post" action="{% url 'invitations:respond_invite' token=invite.token %}">
+                {% csrf_token %}
+                <div class="button-group">
+                    <button type="submit" name="invitation_status" value="accepted" class="button accept-btn">
+                        Confirmar Presença
+                    </button>
+                    <button type="button" id="decline-toggle" class="button decline-btn">
+                        Não Poderei Comparecer
+                    </button>
+                </div>
+                <div id="decline-form" class="decline-form" style="display:none;">
+                    <textarea name="decline_reason" placeholder="Motivo (opcional)"></textarea>
+                    <button type="submit" name="invitation_status" value="declined" class="button decline-btn">
+                        Confirmar Ausência
+                    </button>
+                </div>
+            </form>
+        </div>
+        {% else %}
+        <div class="thanks-container">
+            <h2>Obrigado pela sua resposta!</h2>
+
+            {% if invite.invitation_status == 'accepted' %}
+            <div class="message success">
+                <p>Estamos muito felizes por você confirmar sua presença!</p>
+                {% if invite.gamification %}
+                <div class="gamification-info">
+                    <p>Você ganhou {{ invite.gamification.points }} pontos por confirmar!</p>
+                </div>
+                {% endif %}
+            </div>
+            {% elif invite.invitation_status == 'declined' %}
+            <div class="message declined">
+                <p>Compreendemos que não poderá comparecer.</p>
+                <p>Obrigado por nos informar!</p>
+                {% if invite.decline_reason %}
+                <p><em>"{{ invite.decline_reason }}"</em></p>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+    </section>
+
+    <!-- Seção de Vídeo de Agradecimento -->
+    {% if invite.thank_you_video_url and invite.invitation_status == 'accepted' %}
+    <section class="video-section thank-you">
+        <h3>Mensagem de Agradecimento</h3>
+        <div class="video-container">
+            <iframe src="{{ invite.thank_you_video_url }}" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </section>
+    {% endif %}
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Toggle do formulário de recusa
+      const toggle = document.getElementById('decline-toggle');
+      const form = document.getElementById('decline-form');
+      if (toggle && form) toggle.onclick = () => form.style.display = form.style.display === 'block' ? 'none' : 'block';
+
+      // Verifica e força atributos do SVG caso necessário
+      const svg = document.querySelector('.qr-code svg, .qr-code-inline svg');
+      if (svg) {
+        try {
+          svg.setAttribute('width', svg.getAttribute('width') || '200');
+          svg.setAttribute('height', svg.getAttribute('height') || '200');
+          svg.style.width = svg.style.width || '200px';
+          svg.style.height = svg.style.height || '200px';
+          console.info('QR SVG detectado e dimensionado.');
+        } catch (e) {
+          console.warn('Erro ajustando SVG do QR:', e);
+        }
+      } else {
+        console.warn('QR SVG não encontrado no HTML. Verifique se invite.qr_code_svg está sendo passado e renderizado com |safe.');
+      }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Detalhes do Convidado - {{ guest.first_name }}{% endblock %}
+
+{% block content %}
+<div class="guest-detail">
+    <h1>{{ guest.first_name }} {{ guest.last_name }}</h1>
+
+    {% if guest.avatar %}
+    <div class="profile-image">
+        <img src="{{ guest.avatar }}" alt="{{ guest.first_name }}">
+    </div>
+    {% endif %}
+
+
+    <div class="guest-info">
+        <p><strong>Apelido:</strong> {{ guest.nickname|default:"Não informado" }}</p>
+        <p><strong>Token:</strong> {{ guest.token }}</p>
+        {% if guest.personalized_message %}
+        <p><strong>Mensagem personalizada:</strong> {{ guest.personalized_message }}</p>
+        {% endif %}
+    </div>
+
+    <div class="actions">
+        <a href="{% url 'guests:edit_guest' token=guest.token %}" class="button">Editar Convidado</a>
+        <a href="{% url 'invitations:create_invite' %}?guest={{ guest.id }}" class="button">Criar Novo Convite</a>
+    </div>
+
+    <h2>Convites do Convidado</h2>
+    <div class="invites-list">
+        {% for invite in guest.invites.all %}
+        <div class="invite-card">
+            <p><strong>Tipo de evento:</strong> {{ invite.get_event_type_display }}</p>
+            <p><strong>Status:</strong> {{ invite.get_invitation_status_display }}</p>
+            <p><strong>Data do evento:</strong> {{ invite.event_date|default:"Não informada" }}</p>
+            <a href="{% url 'invitations:invite_detail' token=invite.token %}">Ver Detalhes</a>
+        </div>
+        {% empty %}
+        <p>Este convidado não possui convites.</p>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

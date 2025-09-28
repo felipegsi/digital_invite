@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convite para {{ guest.first_name }}</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f7f7;
+            color: #333;
+        }
+        .invite-card {
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .profile-picture {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 20px;
+            border: 5px solid #f0e9e9;
+        }
+        .guest-name {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: #a77e7e;
+        }
+        .personalized-message {
+            font-style: italic;
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f9f3f3;
+            border-radius: 8px;
+            font-size: 18px;
+        }
+        .emoji {
+            font-size: 32px;
+            margin: 10px 0;
+        }
+        .rsvp-section {
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f0e9e9;
+            border-radius: 10px;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .status-pending {
+            background-color: #f9e076;
+            color: #7d6d00;
+        }
+        .status-accepted {
+            background-color: #a3e4a3;
+            color: #236723;
+        }
+        .status-declined {
+            background-color: #e4a3a3;
+            color: #672323;
+        }
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 16px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .accept-btn {
+            background-color: #a3e4a3;
+            color: #236723;
+        }
+        .decline-btn {
+            background-color: #e4a3a3;
+            color: #672323;
+        }
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+        }
+        .decline-form {
+            margin-top: 15px;
+            display: none;
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+            font-family: inherit;
+        }
+    </style>
+</head>
+<body>
+<div class="invite-card">
+    {% if guest.profile_picture %}
+    <img src="{{ guest.profile_picture }}" alt="{{ guest.first_name }}" class="profile-picture">
+    {% endif %}
+
+    {% if guest.emoji %}
+    <div class="emoji">{{ guest.emoji }}</div>
+    {% endif %}
+
+    <h1 class="guest-name">
+        {% if guest.nickname %}
+        {{ guest.nickname }}
+        {% else %}
+        {{ guest.first_name }} {{ guest.last_name|default:"" }}
+        {% endif %}
+    </h1>
+
+    <div class="personalized-message">
+        {{ guest.personalized_message|default:"Temos o prazer de convidá-lo(a) para nosso casamento!" }}
+    </div>
+
+    {% if guest.pre_confirmation_video_url %}
+    <div class="video-container">
+        <iframe src="{{ guest.pre_confirmation_video_url }}"
+                frameborder="0" allowfullscreen></iframe>
+    </div>
+    {% endif %}
+
+    <div class="rsvp-section">
+        <h2>Confirmação de Presença</h2>
+
+        <div class="status-display">
+            <p>Status atual:</p>
+            {% if guest.invitation_status == 'pending' %}
+            <span class="status-badge status-pending">Pendente</span>
+            {% elif guest.invitation_status == 'accepted' %}
+            <span class="status-badge status-accepted">Confirmado</span>
+            {% elif guest.invitation_status == 'declined' %}
+            <span class="status-badge status-declined">Não poderá comparecer</span>
+            {% endif %}
+        </div>
+
+        {% if guest.invitation_status == 'pending' %}
+        <form method="post">
+            {% csrf_token %}
+            <div class="button-group">
+                <button type="submit" name="invitation_status" value="accepted" class="button accept-btn">
+                    Confirmar Presença
+                </button>
+                <button type="button" id="decline-toggle" class="button decline-btn">
+                    Não Poderei Comparecer
+                </button>
+            </div>
+
+            <div id="decline-form" class="decline-form">
+                <textarea name="decline_reason" placeholder="Nos conte o motivo da sua ausência (opcional)"></textarea>
+                <button type="submit" name="invitation_status" value="declined" class="button decline-btn">
+                    Confirmar Ausência
+                </button>
+            </div>
+        </form>
+        {% endif %}
+
+        {% if guest.invitation_status == 'accepted' %}
+        <p>Agradecemos a confirmação! Estamos ansiosos para celebrar com você.</p>
+        {% endif %}
+
+        {% if guest.invitation_status == 'declined' %}
+        <p>Sentiremos a sua falta, mas compreendemos.</p>
+        {% if guest.decline_reason %}
+        <p><em>"{{ guest.decline_reason }}"</em></p>
+        {% endif %}
+        {% endif %}
+    </div>
+
+    <div class="gamification-info">
+        <h3>Pontos de Gamificação</h3>
+        {% for invite in invites %}
+        {% if invite.gamification %}
+        <p>Evento: {{ invite.get_event_type_display }} - Pontos: {{ invite.gamification.points }}</p>
+        {% else %}
+        <p>Evento: {{ invite.get_event_type_display }} - Sem pontos registrados</p>
+        {% endif %}
+        {% empty %}
+        <p>Não há convites com pontuação disponível.</p>
+        {% endfor %}
+    </div>
+
+
+    {% if guest.thank_you_video_url and guest.invitation_status == 'accepted' %}
+    <h3>Mensagem especial para você:</h3>
+    <div class="video-container">
+        <iframe src="{{ guest.thank_you_video_url }}"
+                frameborder="0" allowfullscreen></iframe>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const declineToggle = document.getElementById('decline-toggle');
+        const declineForm = document.getElementById('decline-form');
+
+        if (declineToggle) {
+            declineToggle.addEventListener('click', function() {
+                declineForm.style.display = declineForm.style.display === 'block' ? 'none' : 'block';
+            });
+        }
+    });
+</script>
+</body>
+</html>

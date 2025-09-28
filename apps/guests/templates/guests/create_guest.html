@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Create New Guest{% endblock %}
+
+{% block content %}
+    <h1>Create a New Guest</h1>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {% for field in form %}
+            <div class="form-group">
+                {{ field.label_tag }}
+                {{ field }}
+
+                {% if field.errors %}
+                    <div class="alert alert-danger">
+                        {{ field.errors }}
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        <!-- Campo para upload de múltiplas imagens separado dos campos do formulário -->
+        <div class="form-group">
+            <label for="memories_upload">Recordações</label>
+            <input type="file" name="memories_upload" multiple class="form-control-file" id="memories_upload">
+            <small class="form-text text-muted">Você pode selecionar múltiplas fotos para as recordações.</small>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+{% endblock %}

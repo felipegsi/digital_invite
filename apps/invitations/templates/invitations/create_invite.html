@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Criar Novo Convite{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Criar Novo Convite</h1>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="{{ form.guest.id_for_label }}">Convidado:</label>
+            {{ form.guest }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.event_date.id_for_label }}">Data de Expiração:</label>
+            {{ form.expiration_date }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.personalized_message.id_for_label }}">Mensagem Personalizada:</label>
+            {{ form.personalized_message }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.pre_confirmation_video_url.id_for_label }}">URL do Vídeo (Pré-confirmação):</label>
+            {{ form.pre_confirmation_video_url }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.thank_you_video_url.id_for_label }}">URL do Vídeo (Agradecimento):</label>
+            {{ form.thank_you_video_url }}
+        </div>
+
+
+        <button type="submit" class="btn btn-primary">Criar Convite</button>
+    </form>
+
+    <div class="actions">
+        <a href="{% url 'guests:create_guest' %}">Criar Novo Convidado</a>
+    </div>
+</div>
+
+{% endblock %}

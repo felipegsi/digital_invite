@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Guest Created{% endblock %}
+
+{% block content %}
+<h1>Convidado criado com sucesso!</h1>
+
+{% if guest %}
+<p>O convidado <strong>{{guest.first_name}} {{ guest.last_name }}</strong> foi adicionado ao sistema.</p>
+{% endif %}
+
+<a href="{% url 'guests:create_guest' %}" class="button">Criar outro convidado</a>
+
+<a href="{% url 'invitations:create_invite' %}" class="button">Criar convite</a>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Obrigado pela Resposta{% endblock %}
+
+{% block content %}
+<div class="thanks-container">
+    <h1>Obrigado pela sua resposta!</h1>
+
+    {% if invite %}
+        {% if invite.invitation_status == 'accepted' %}
+            <div class="message success">
+                <p>Estamos muito felizes por você confirmar sua presença!</p>
+
+                {% if invite.gamification %}
+                <div class="gamification-info">
+                    <p>Você ganhou {{ invite.gamification.points }} pontos por confirmar!</p>
+                </div>
+                {% endif %}
+
+                {% if invite.thank_you_video_url %}
+                <div class="video-container">
+                    <h3>Uma mensagem especial para você:</h3>
+                    <iframe src="{{ invite.thank_you_video_url }}" frameborder="0" allowfullscreen></iframe>
+                </div>
+                {% endif %}
+            </div>
+        {% elif invite.invitation_status == 'declined' %}
+            <div class="message declined">
+                <p>Compreendemos que não poderá comparecer.</p>
+                <p>Obrigado por nos informar!</p>
+                {% if invite.decline_reason %}
+                    <p><em>"{{ invite.decline_reason }}"</em></p>
+                {% endif %}
+            </div>
+        {% endif %}
+    {% endif %}
+
+    <a href="{% url 'invitations:guest_invite' token=invite.guest.token %}" class="button">Voltar ao convite</a>
+</div>
+{% endblock %}
