@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}Erro no Convite{% endblock %}
+
+{% block content %}
+<div class="error-container">
+    <div class="error-card">
+        <div class="error-icon">❌</div>
+        <h1>Ops! Algo deu errado</h1>
+        <p>{{ error_message|default:"Ocorreu um erro inesperado ao carregar o convite." }}</p>
+        <div class="error-actions">
+            <button onclick="window.location.reload()" class="retry-btn">
+                Tentar Novamente
+            </button>
+            <a href="mailto:contato@exemplo.com" class="contact-btn">
+                Reportar Problema
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+.error-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.error-card {
+    background: white;
+    border-radius: 20px;
+    padding: 60px 40px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    max-width: 500px;
+    width: 100%;
+}
+
+.error-icon {
+    font-size: 4em;
+    margin-bottom: 20px;
+}
+
+.error-card h1 {
+    color: #e74c3c;
+    margin-bottom: 20px;
+    font-size: 2em;
+}
+
+.error-card p {
+    color: #7f8c8d;
+    font-size: 1.1em;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.error-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.retry-btn, .contact-btn {
+    display: inline-block;
+    padding: 15px 30px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.retry-btn {
+    background: #27ae60;
+    color: white;
+}
+
+.retry-btn:hover {
+    background: #229954;
+    transform: translateY(-2px);
+}
+
+.contact-btn {
+    background: #3498db;
+    color: white;
+}
+
+.contact-btn:hover {
+    background: #2980b9;
+    transform: translateY(-2px);
+}
+</style>
+{% endblock %}

@@ -1,200 +1,363 @@
 {% extends "base.html" %}
+{% load invite_extras %}
 
-{% block title %}Convite para {{ invite.guest.first_name }}{% endblock %}
+{% block title %}{{ invite.guest.first_name }} {{ invite.guest.last_name|default:"" }} - Convite Especial{% endblock %}
 
-{% block content %}
+{% block extra_css %}
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;700&family=Inter:wght@300;400;500;600&display=swap" as="style">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-    .qr-code {
-      background: #fff;
-      padding: 10px;
-      border-radius: 8px;
-      box-shadow: 0 0 8px #eee;
-      display: inline-block;
+    :root {
+        --primary-color: #d4af37;
+        --secondary-color: #8b7355;
+        --accent-color: #f4f1ea;
+        --text-dark: #2c2c2c;
+        --text-light: #6b6b6b;
+        --white: #ffffff;
+        --shadow: 0 10px 30px rgba(0,0,0,0.1);
+        --shadow-hover: 0 15px 40px rgba(0,0,0,0.15);
     }
-    .qr-code svg rect {
-      fill: #000 !important;
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
     }
-    .thanks-container {
-        margin-top: 20px;
-        padding: 15px;
-        border-radius: 8px;
-        background-color: #f9f9f9;
+
+    body {
+        font-family: 'Inter', sans-serif;
+        line-height: 1.6;
+        color: var(--text-dark);
+        background: linear-gradient(135deg, #f8f6f0 0%, #e8e2d4 100%);
+        min-height: 100vh;
     }
-    .message.success {
-        color: green;
+
+    .invite-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px;
     }
-    .message.declined {
-        color: #888;
-    }
-    .memories-container {
-        margin: 20px 0;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        justify-content: center;
-    }
-    .memory-image {
-        width: 150px;
-        height: 150px;
-        object-fit: cover;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        transition: transform 0.3s ease;
-    }
-    .memory-image:hover {
-        transform: scale(1.05);
-    }
-    .memories-title {
+
+    .invite-header {
         text-align: center;
-        margin-top: 20px;
-        color: #555;
+        padding: 60px 40px;
+        background: var(--white);
+        border-radius: 25px;
+        margin-bottom: 30px;
+        box-shadow: var(--shadow);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .invite-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    }
+
+    .guest-profile {
+        margin-bottom: 30px;
+    }
+
+    .profile-picture {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid var(--primary-color);
+        margin: 0 auto 20px;
+        display: block;
+        box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+    }
+
+    .guest-name {
+        font-family: 'Playfair Display', serif;
+        font-size: 2.5em;
+        font-weight: 300;
+        color: var(--text-dark);
+        margin-bottom: 10px;
+    }
+
+    .guest-emoji {
+        font-size: 2em;
+        margin: 15px 0;
+    }
+
+    .personalized-message {
+        font-size: 1.2em;
+        font-style: italic;
+        color: var(--text-light);
+        max-width: 600px;
+        margin: 0 auto;
+        line-height: 1.8;
+    }
+
+    .content-section {
+        background: var(--white);
+        border-radius: 20px;
+        padding: 40px;
+        margin-bottom: 30px;
+        box-shadow: var(--shadow);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .content-section:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-hover);
+    }
+
+    .section-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.8em;
+        color: var(--primary-color);
+        margin-bottom: 25px;
+        text-align: center;
+        position: relative;
+    }
+
+    .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 50px;
+        height: 2px;
+        background: var(--primary-color);
+    }
+
+    .video-container {
+        position: relative;
+        padding-bottom: 56.25%;
+        height: 0;
+        overflow: hidden;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+
+    .video-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+        border-radius: 15px;
+    }
+
+    .qr-section {
+        text-align: center;
+    }
+
+    .qr-code-container {
+        display: inline-block;
+        padding: 20px;
+        background: var(--white);
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        border: 2px solid var(--accent-color);
+    }
+
+    .qr-code-container img {
+        border-radius: 8px;
+    }
+
+    .loading-spinner {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        border: 3px solid var(--accent-color);
+        border-radius: 50%;
+        border-top-color: var(--primary-color);
+        animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+
+    .fade-in {
+        animation: fadeIn 0.6s ease-in;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .invite-container {
+            padding: 15px;
+        }
+
+        .invite-header {
+            padding: 40px 20px;
+        }
+
+        .guest-name {
+            font-size: 2em;
+        }
+
+        .content-section {
+            padding: 25px;
+        }
+
+        .personalized-message {
+            font-size: 1.1em;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .guest-name {
+            font-size: 1.8em;
+        }
+
+        .profile-picture {
+            width: 100px;
+            height: 100px;
+        }
+
+        .content-section {
+            padding: 20px;
+        }
     }
 </style>
+{% endblock %}
 
-<div class="invite-card">
-    <!-- Seção de Cabeçalho e Identificação -->
-    <header class="invite-header">
-        <h1 class="guest-name">
-            {{ invite.guest.first_name|default:"" }}
-            {{ invite.guest.last_name|default:"" }}
-            ("{{ invite.guest.nickname|default:"" }}")
-        </h1>
-
-        <!-- Perfil do Convidado -->
+{% block content %}
+<div class="invite-container">
+    <!-- Cabeçalho Principal -->
+    <header class="invite-header fade-in">
         <div class="guest-profile">
-            {% if invite.guest.avatar_url %}
-            <img src="{{ invite.guest.avatar_url }}" alt="{{ invite.guest.first_name }}" class="profile-picture">
+            {% if media_data.avatar_url %}
+            <img src="{{ media_data.avatar_url }}" 
+                 alt="{{ invite.guest.first_name }}" 
+                 class="profile-picture"
+                 loading="eager">
             {% endif %}
-
+            
             {% if invite.guest.emoji %}
-            <div class="emoji">{{ invite.guest.emoji }}</div>
+            <div class="guest-emoji">{{ invite.guest.emoji }}</div>
             {% endif %}
+        </div>
+        
+        <h1 class="guest-name">
+            {% if invite.guest.nickname %}
+                {{ invite.guest.nickname }}
+            {% else %}
+                {{ invite.guest.first_name }} {{ invite.guest.last_name|default:"" }}
+            {% endif %}
+        </h1>
+        
+        <div class="personalized-message">
+            {{ invite.personalized_message|default:"Temos o prazer de convidá-lo(a) para nosso evento especial!" }}
         </div>
     </header>
 
-    <!-- Seção de Mensagem Personalizada -->
-    <section class="message-section">
-        <div class="personalized-message">
-            {{ invite.guest.personalized_message|default:"Temos o prazer de convidá-lo(a) para nosso evento!" }}
-        </div>
-    </section>
-
-    <!-- Seção de QR Code -->
-    <section class="qr-code-section">
-        {% if invite.qr_code_id %}
-        <div class="qr-code">
-            <h3>QR Code do Convite</h3>
-            <img src="{{ invite.get_qr_code_url }}" alt="QR Code do Convite" width="200" height="200">
-        </div>
-        {% else %}
-        <p>QR Code não disponível.</p>
-        {% endif %}
-    </section>
-
-    <!-- Seção de Memórias -->
-    {% if invite.guest.memories_urls %}
-    <section class="memories-section">
-        <h3 class="memories-title">Recordações</h3>
-        <div class="memories-container">
-            {% for memory_url in invite.guest.memories_urls %}
-            <img src="{{ memory_url }}" alt="Recordação de {{ invite.guest.first_name }}" class="memory-image">
-            {% endfor %}
-        </div>
-    </section>
-    {% endif %}
-
-    <!-- Seção de Vídeo Pré-confirmação -->
+    <!-- Vídeo Pré-confirmação -->
     {% if invite.pre_confirmation_video_url %}
-    <section class="video-section pre-confirmation">
-        <h3>Vídeo</h3>
+    <section class="content-section fade-in">
+        <h2 class="section-title">Uma Mensagem Especial</h2>
         <div class="video-container">
-            <iframe src="{{ invite.pre_confirmation_video_url }}" frameborder="0" allowfullscreen></iframe>
+            <iframe src="{{ invite.pre_confirmation_video_url|get_video_embed_url }}" 
+                    allowfullscreen
+                    loading="lazy"></iframe>
         </div>
     </section>
     {% endif %}
 
-    <!-- Seção de RSVP ou Agradecimento -->
-    <section class="response-section">
-        {% if invite.invitation_status == 'pending' %}
-        <div class="rsvp-section">
-            <h2>Confirmação de Presença</h2>
-            <form method="post" action="{% url 'invitations:respond_invite' token=invite.token %}">
-                {% csrf_token %}
-                <div class="button-group">
-                    <button type="submit" name="invitation_status" value="accepted" class="button accept-btn">
-                        Confirmar Presença
-                    </button>
-                    <button type="button" id="decline-toggle" class="button decline-btn">
-                        Não Poderei Comparecer
-                    </button>
-                </div>
-                <div id="decline-form" class="decline-form" style="display:none;">
-                    <textarea name="decline_reason" placeholder="Motivo (opcional)"></textarea>
-                    <button type="submit" name="invitation_status" value="declined" class="button decline-btn">
-                        Confirmar Ausência
-                    </button>
-                </div>
-            </form>
-        </div>
-        {% else %}
-        <div class="thanks-container">
-            <h2>Obrigado pela sua resposta!</h2>
+    <!-- Galeria de Memórias -->
+    {% if media_data.memories_urls %}
+    <section class="content-section fade-in">
+        {% memory_gallery media_data %}
+    </section>
+    {% endif %}
 
-            {% if invite.invitation_status == 'accepted' %}
-            <div class="message success">
-                <p>Estamos muito felizes por você confirmar sua presença!</p>
-                {% if invite.gamification %}
-                <div class="gamification-info">
-                    <p>Você ganhou {{ invite.gamification.points }} pontos por confirmar!</p>
-                </div>
-                {% endif %}
-            </div>
-            {% elif invite.invitation_status == 'declined' %}
-            <div class="message declined">
-                <p>Compreendemos que não poderá comparecer.</p>
-                <p>Obrigado por nos informar!</p>
-                {% if invite.decline_reason %}
-                <p><em>"{{ invite.decline_reason }}"</em></p>
-                {% endif %}
-            </div>
-            {% endif %}
-        </div>
-        {% endif %}
+    <!-- Formulário RSVP -->
+    <section class="content-section fade-in">
+        {% rsvp_form invite %}
     </section>
 
-    <!-- Seção de Vídeo de Agradecimento -->
+    <!-- Vídeo de Agradecimento -->
     {% if invite.thank_you_video_url and invite.invitation_status == 'accepted' %}
-    <section class="video-section thank-you">
-        <h3>Mensagem de Agradecimento</h3>
+    <section class="content-section fade-in">
+        <h2 class="section-title">Mensagem de Agradecimento</h2>
         <div class="video-container">
-            <iframe src="{{ invite.thank_you_video_url }}" frameborder="0" allowfullscreen></iframe>
+            <iframe src="{{ invite.thank_you_video_url|get_video_embed_url }}" 
+                    allowfullscreen
+                    loading="lazy"></iframe>
         </div>
+    </section>
+    {% endif %}
+
+    <!-- QR Code -->
+    {% if invite.qr_code_id %}
+    <section class="content-section qr-section fade-in">
+        <h2 class="section-title">Seu Convite Digital</h2>
+        <div class="qr-code-container">
+            <img src="{{ invite.get_qr_code_url }}" 
+                 alt="QR Code do Convite" 
+                 width="200" 
+                 height="200"
+                 loading="lazy">
+        </div>
+        <p style="margin-top: 15px; color: var(--text-light);">
+            Compartilhe este QR Code para mostrar seu convite
+        </p>
     </section>
     {% endif %}
 </div>
+{% endblock %}
 
+{% block scripts %}
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // Toggle do formulário de recusa
-      const toggle = document.getElementById('decline-toggle');
-      const form = document.getElementById('decline-form');
-      if (toggle && form) toggle.onclick = () => form.style.display = form.style.display === 'block' ? 'none' : 'block';
-
-      // Verifica e força atributos do SVG caso necessário
-      const svg = document.querySelector('.qr-code svg, .qr-code-inline svg');
-      if (svg) {
-        try {
-          svg.setAttribute('width', svg.getAttribute('width') || '200');
-          svg.setAttribute('height', svg.getAttribute('height') || '200');
-          svg.style.width = svg.style.width || '200px';
-          svg.style.height = svg.style.height || '200px';
-          console.info('QR SVG detectado e dimensionado.');
-        } catch (e) {
-          console.warn('Erro ajustando SVG do QR:', e);
-        }
-      } else {
-        console.warn('QR SVG não encontrado no HTML. Verifique se invite.qr_code_svg está sendo passado e renderizado com |safe.');
-      }
+// Lazy loading para imagens
+document.addEventListener('DOMContentLoaded', function() {
+    // Intersection Observer para animações
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+    
+    // Observar elementos com fade-in
+    document.querySelectorAll('.fade-in').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(el);
     });
+    
+    // Preload de imagens críticas
+    const criticalImages = document.querySelectorAll('img[loading="eager"]');
+    criticalImages.forEach(img => {
+        const preloadLink = document.createElement('link');
+        preloadLink.rel = 'preload';
+        preloadLink.as = 'image';
+        preloadLink.href = img.src;
+        document.head.appendChild(preloadLink);
+    });
+    
+    // Performance monitoring
+    if ('performance' in window) {
+        window.addEventListener('load', function() {
+            const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
+            console.log('Page load time:', loadTime + 'ms');
+        });
+    }
+});
 </script>
 {% endblock %}

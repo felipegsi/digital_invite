@@ -6,8 +6,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.utils.safestring import mark_safe
 from django.contrib.admin.views.decorators import staff_member_required
+from django.views.decorators.cache import cache_page
+from django.views.decorators.vary import vary_on_headers
+from django.core.exceptions import PermissionDenied
 
 from apps.core.services.appwrite_service import AppwriteService
+from apps.invitations.services.invite_service import InviteService
 from apps.invitations.forms import InviteForm
 from apps.invitations.models import Invite
 from apps.guests.models import Guest
@@ -120,13 +124,89 @@ def respond_invite(request, token):
 
     return render(request, "invitations/respond_invite.html", {"invite": invite})
 
+def get_client_ip(request):
+    """
+    Obtém o IP real do cliente
+    """
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
+@vary_on_headers('User-Agent')
 def invite_detail(request, token):
-    invite = get_object_or_404(Invite, token=token)
-    invite.last_access = timezone.now()
-    invite.interactions_count += 1
-    invite.save()
+    """
+    Exibe detalhes do convite com otimizações de performance e segurança
+    """
+    try:
+        # Busca convite com cache e validação
+        client_ip = get_client_ip(request)
+        invite = InviteService.get_invite_with_cache(token, client_ip)
+        
+        # Valida acesso ao convite
+        is_valid, error_message = InviteService.validate_invite_access(invite)
+        if not is_valid:
+            raise PermissionDenied(error_message)
+        
+        # Obtém URLs otimizadas das mídias
+        media_data = InviteService.get_optimized_media_urls(invite.guest)
+        
+        context = {
+            'invite': invite,
+            'media_data': media_data,
+        }
+        
+        return render(request, "invitations/invite_detail.html", context)
+        
+    except PermissionDenied as e:
+        return render(request, "invitations/invite_expired.html", {
+            'error_message': str(e)
+        })
+    except Exception as e:
+        # Log do erro para debugging
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.error(f"Erro ao carregar convite {token}: {e}")
+        
+        return render(request, "invitations/invite_error.html", {
+            'error_message': "Ocorreu um erro ao carregar o convite."
+        })
+
+def respond_invite(request, token):
+    """
+    Processa resposta RSVP do convidado com validações aprimoradas
+    """
+    invite = get_object_or_404(Invite, token=token, is_active=True)
+    
+    # Valida acesso
+    is_valid, error_message = InviteService.validate_invite_access(invite)
+    if not is_valid:
+        raise PermissionDenied(error_message)
+    
+    if request.method == "POST":
+        status = request.POST.get('invitation_status')
+        decline_reason = request.POST.get('decline_reason', '').strip()
+        
+        # Processa resposta usando o service
+        success, message = InviteService.process_rsvp_response(
+            invite, status, decline_reason
+        )
+        
+        if success:
+            return redirect('invitations:invite_detail', token=token)
+        else:
+            # Retorna erro se processamento falhou
+            return render(request, "invitations/invite_detail.html", {
+                'invite': invite,
+                'error_message': message,
+                'media_data': InviteService.get_optimized_media_urls(invite.guest)
+            })
+    
     return render(request, "invitations/invite_detail.html", {
-        "invite": invite,
+        'invite': invite,
+        'media_data': InviteService.get_optimized_media_urls(invite.guest)
     })
 
 def generate_qr_code_image(link):
