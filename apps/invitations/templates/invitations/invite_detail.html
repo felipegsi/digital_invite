@@ -22,10 +22,10 @@
 {% endblock %}
 
 {% block content %}
-<div class="invite-container max-w-3xl mx-auto p-6">
+<div class="invite-container min-h-screen max-w-3xl mx-auto p-6 flex flex-col items-center justify-center">
 
     <!-- Splash Overlay (always rendered; shows memories if present, otherwise uses fallbacks) -->
-    <div id="splashOverlay" class="splash-overlay fixed inset-0 flex items-center justify-center bg-black z-50 overflow-hidden" aria-hidden="false">
+    <div id="splashOverlay" class="splash-overlay fixed inset-0 flex items-center justify-center z-50 overflow-hidden" aria-hidden="true" style="display:none; background:transparent;">
         <button id="splashSkipBtn" class="splash-skip absolute top-4 right-5 bg-black/40 text-white px-3 py-2 rounded-full focus:outline-none" aria-label="Pular slideshow">Pular</button>
 
         <div class="splash-stage relative w-full h-full" id="splashStage">
@@ -49,6 +49,11 @@
 
             <!-- progress dots -->
             <div class="splash-progress absolute bottom-6 left-1/2 transform -translate-x-1/2 flex gap-2" id="splashProgress"></div>
+
+            <!-- loader shown until first image loads (visible only when overlay displayed) -->
+            <div id="splashLoader" class="absolute inset-0 flex items-center justify-center" style="display:none;">
+                <div class="animate-spin rounded-full h-12 w-12 border-t-4 border-yellow-400 border-gray-200"></div>
+            </div>
 
             <!-- final logo / end frame (hidden until last) -->
             <div class="splash-logo-end absolute inset-0 hidden items-center justify-center flex-col gap-4 text-white" id="splashEnd">
@@ -169,23 +174,8 @@
 </div>
 
 <script>
-// Inline fallback: ensure the first slide is visible as soon as possible
-(function(){
-    try {
-        var splash = document.getElementById('splashOverlay');
-        if (!splash) return;
-        var first = splash.querySelector('.splash-slide');
-        if (first) {
-            // ensure background already set from data-src
-            var src = first.getAttribute('data-src');
-            if (src && !first.style.backgroundImage) first.style.backgroundImage = 'url("'+src+'")';
-            first.classList.add('visible');
-        }
-        // keep overlay visible until main script hides it
-        splash.style.display = 'flex';
-        splash.style.opacity = '1';
-    } catch (e) { /* fail silently */ }
-})();
+// Removed immediate-display fallback to avoid a brief black flash.
+// Background images are still assigned early, but overlay is shown only when runSlideshow starts.
 </script>
 
 {% endblock %}
@@ -233,13 +223,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // --- Splash slideshow implementation ---
-    const splashOverlay = document.getElementById('splashOverlay');
-    const hasSplash = !!splashOverlay;
+     const splashOverlay = document.getElementById('splashOverlay');
+     const hasSplash = !!splashOverlay;
 
-    const slides = Array.from(document.querySelectorAll('.splash-slide'));
-    const progress = document.getElementById('splashProgress');
-    const endFrame = document.getElementById('splashEnd');
-    const mainInvite = document.getElementById('mainInviteContent');
+     const slides = Array.from(document.querySelectorAll('.splash-slide'));
+     const progress = document.getElementById('splashProgress');
+     const endFrame = document.getElementById('splashEnd');
+     const mainInvite = document.getElementById('mainInviteContent');
 
     // Build progress dots (only if splash present)
     if (hasSplash && progress) {
@@ -262,10 +252,44 @@ document.addEventListener('DOMContentLoaded', function() {
         slides.forEach((slide, idx) => {
             const src = slide.getAttribute('data-src');
             const caption = (slide.getAttribute('data-caption') || '').trim() || fallbackCaption(idx);
-            if (src) slide.style.backgroundImage = `url('${src}')`;
+            if (src && !slide.style.backgroundImage) slide.style.backgroundImage = `url('${src}')`;
             const captionEl = document.createElement('div'); captionEl.className = 'splash-caption';
             captionEl.innerText = caption;
             slide.appendChild(captionEl);
+        });
+    }
+
+    // Preload images (wait for first image to load before revealing)
+    function preloadImages(slides, timeout = 2000) {
+        return new Promise(resolve => {
+            if (!slides || slides.length === 0) return resolve([]);
+            let resolved = false;
+            const urls = slides.map(s => s.getAttribute('data-src')).filter(Boolean);
+            if (urls.length === 0) return resolve([]);
+
+            // resolve on first load or after timeout
+            const onLoad = (url) => {
+                if (!resolved) {
+                    resolved = true; clearTimers(); resolve([url]);
+                }
+            };
+
+            const onError = () => {
+                if (!resolved) { /* keep waiting for others or timeout */ }
+            };
+
+            const timers = [];
+            function clearTimers(){ timers.forEach(t => clearTimeout(t)); }
+
+            urls.forEach(u => {
+                const img = new Image();
+                img.onload = () => onLoad(u);
+                img.onerror = onError;
+                img.src = u;
+            });
+
+            // fallback timeout
+            timers.push(setTimeout(() => { if (!resolved) { resolved = true; clearTimers(); resolve([]); } }, timeout));
         });
     }
 
@@ -286,12 +310,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
     async function runSlideshow() {
         if (!hasSplash) return;
-        // start with dark reveal: fade from black to first image
-        splashOverlay.style.background = '#000';
+
+        // Preload first images (or timeout) before showing the overlay to avoid black flash
+        await preloadImages(slides, 2500);
+
+        // Now show overlay and start slideshow
+        splashOverlay.style.display = 'flex';
+        splashOverlay.setAttribute('aria-hidden','false');
+        // ensure overlay is transparent then switch to dark at reveal for cinematic effect
+        splashOverlay.style.background = 'transparent';
+
+        // reveal first slide then start normal slideshow
         showSlide(0);
 
-        // reveal by reducing black overlay via opacity
-        splashOverlay.animate([{opacity:1},{opacity:1}],{duration:10});
 
         for (let i = 0; i < slides.length; i++) {
             current = i;

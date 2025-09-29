@@ -290,3 +290,24 @@ INFO 2025-09-29 22:05:38,480 basehttp 4216 27992 "GET /invitations/detail/efbaf5
 WARNING 2025-09-29 22:05:38,589 basehttp 4216 27992 "GET /static/css/tailwind.css HTTP/1.1" 404 1862
 INFO 2025-09-29 22:06:02,718 basehttp 4216 37664 "GET /invitations/detail/efbaf5f8-d5db-4506-b255-3ded122cfead/ HTTP/1.1" 200 34510
 WARNING 2025-09-29 22:06:02,835 basehttp 4216 37664 "GET /static/css/tailwind.css HTTP/1.1" 404 1862
+INFO 2025-09-29 22:34:05,305 autoreload 20392 29804 Watching for file changes with StatReloader
+INFO 2025-09-29 22:34:28,613 basehttp 4216 18120 "GET /invitations/detail/efbaf5f8-d5db-4506-b255-3ded122cfead/ HTTP/1.1" 200 35939
+WARNING 2025-09-29 22:34:28,761 basehttp 4216 18120 "GET /static/css/tailwind.css HTTP/1.1" 404 1862
+WARNING 2025-09-29 22:34:31,843 log 4216 14504 Not Found: /favicon.ico
+WARNING 2025-09-29 22:34:31,843 basehttp 4216 14504 "GET /favicon.ico HTTP/1.1" 404 2846
+INFO 2025-09-29 22:35:00,041 basehttp 4216 14504 "GET /invitations/detail/efbaf5f8-d5db-4506-b255-3ded122cfead/ HTTP/1.1" 200 35939
+WARNING 2025-09-29 22:35:00,149 basehttp 4216 14504 "GET /static/css/tailwind.css HTTP/1.1" 404 1862
+INFO 2025-09-29 22:35:13,325 basehttp 4216 18936 "POST /invitations/respond/efbaf5f8-d5db-4506-b255-3ded122cfead/ HTTP/1.1" 302 0
+INFO 2025-09-29 22:35:13,375 basehttp 4216 18936 "GET /invitations/detail/efbaf5f8-d5db-4506-b255-3ded122cfead/?profile_modal=1 HTTP/1.1" 200 35194
+WARNING 2025-09-29 22:35:13,428 basehttp 4216 18936 "GET /static/css/tailwind.css HTTP/1.1" 404 1862
+INFO 2025-09-29 22:36:36,307 autoreload 25784 25968 Watching for file changes with StatReloader
+INFO 2025-09-29 22:36:39,643 basehttp 25784 33776 "GET /invitations/detail/efbaf5f8-d5db-4506-b255-3ded122cfead/?profile_modal=1 HTTP/1.1" 200 35194
+WARNING 2025-09-29 22:36:39,725 basehttp 25784 33776 "GET /static/css/tailwind.css HTTP/1.1" 404 1862
+WARNING 2025-09-29 22:36:42,839 log 25784 14268 Not Found: /favicon.ico
+WARNING 2025-09-29 22:36:42,839 basehttp 25784 14268 "GET /favicon.ico HTTP/1.1" 404 2846
+INFO 2025-09-29 22:37:20,016 basehttp 25784 20100 "GET /invitations/detail/efbaf5f8-d5db-4506-b255-3ded122cfead/?profile_modal=2 HTTP/1.1" 200 35194
+WARNING 2025-09-29 22:37:20,140 basehttp 25784 20100 "GET /static/css/tailwind.css HTTP/1.1" 404 1862
+INFO 2025-09-29 22:37:22,282 basehttp 25784 24064 "GET /invitations/detail/efbaf5f8-d5db-4506-b255-3ded122cfead/?profile_modal=2 HTTP/1.1" 200 35194
+WARNING 2025-09-29 22:37:22,356 basehttp 25784 24064 "GET /static/css/tailwind.css HTTP/1.1" 404 1862
+INFO 2025-09-29 22:37:26,959 basehttp 25784 30272 "GET /invitations/detail/efbaf5f8-d5db-4506-b255-3ded122cfead/?profile_modal=6 HTTP/1.1" 200 35194
+WARNING 2025-09-29 22:37:27,024 basehttp 25784 30272 "GET /static/css/tailwind.css HTTP/1.1" 404 1862
