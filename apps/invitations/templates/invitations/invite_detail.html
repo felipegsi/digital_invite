@@ -247,11 +247,7 @@
         </div>
         
         <h1 class="guest-name">
-            {% if invite.guest.nickname %}
-                {{ invite.guest.nickname }}
-            {% else %}
-                {{ invite.guest.first_name }} {{ invite.guest.last_name|default:"" }}
-            {% endif %}
+            {{ invite.guest.first_name }} {{ invite.guest.last_name|default:"" }} ("{{ invite.guest.nickname }}")
         </h1>
         
         <div class="personalized-message">

@@ -157,7 +157,7 @@
 
 <script>
 let currentMemoryIndex = 0;
-const memoryUrls = {{ memories_data.memories_urls|json_script_safe }};
+const memoryUrls = {{ memories_data.memories_urls }};
 
 function openMemoryModal(img) {
     const modal = document.getElementById('memory-modal');

@@ -1,0 +1,132 @@
+INFO 2025-09-29 01:25:04,780 autoreload 37820 5096 Watching for file changes with StatReloader
+WARNING 2025-09-29 01:25:13,738 log 37820 23964 Not Found: /
+WARNING 2025-09-29 01:25:13,739 basehttp 37820 23964 "GET / HTTP/1.1" 404 2795
+INFO 2025-09-29 01:25:21,926 basehttp 37820 23964 "GET /guests/create/ HTTP/1.1" 200 2745
+INFO 2025-09-29 01:26:12,254 basehttp 37820 23964 "POST /guests/create/ HTTP/1.1" 302 0
+INFO 2025-09-29 01:26:12,269 basehttp 37820 23964 "GET /guests/success/6d5c9620-0b00-4917-8b18-7b7b4001e38b/ HTTP/1.1" 200 789
+INFO 2025-09-29 01:26:16,602 basehttp 37820 23964 "GET /invitations/create/ HTTP/1.1" 200 2995
+INFO 2025-09-29 01:26:50,359 basehttp 37820 23964 "POST /invitations/create/ HTTP/1.1" 302 0
+ERROR 2025-09-29 01:26:50,378 views 37820 23964 Erro ao carregar convite 7ed4dd1e-e08d-46e8-9da9-d5217645ec7a: Invalid filter: 'json_script_safe'
+INFO 2025-09-29 01:26:50,380 basehttp 37820 23964 "GET /invitations/detail/7ed4dd1e-e08d-46e8-9da9-d5217645ec7a/ HTTP/1.1" 200 2286
+ERROR 2025-09-29 01:26:56,786 views 37820 23964 Erro ao carregar convite 7ed4dd1e-e08d-46e8-9da9-d5217645ec7a: Invalid filter: 'json_script_safe'
+INFO 2025-09-29 01:26:56,787 basehttp 37820 23964 "GET /invitations/detail/7ed4dd1e-e08d-46e8-9da9-d5217645ec7a/ HTTP/1.1" 200 2286
+ERROR 2025-09-29 01:27:21,241 views 37820 23964 Erro ao carregar convite 7ed4dd1e-e08d-46e8-9da9-d5217645ec7a: Invalid filter: 'json_script_safe'
+INFO 2025-09-29 01:27:21,243 basehttp 37820 23964 "GET /invitations/detail/7ed4dd1e-e08d-46e8-9da9-d5217645ec7a/ HTTP/1.1" 200 2286
+ERROR 2025-09-29 01:29:04,772 views 37820 23964 Erro ao carregar convite 7ed4dd1e-e08d-46e8-9da9-d5217645ec7a: Invalid filter: 'json_script_safe'
+INFO 2025-09-29 01:29:04,772 basehttp 37820 23964 "GET /invitations/detail/7ed4dd1e-e08d-46e8-9da9-d5217645ec7a/ HTTP/1.1" 200 2286
+ERROR 2025-09-29 01:29:06,085 views 37820 23964 Erro ao carregar convite 7ed4dd1e-e08d-46e8-9da9-d5217645ec7a: Invalid filter: 'json_script_safe'
+INFO 2025-09-29 01:29:06,086 basehttp 37820 23964 "GET /invitations/detail/7ed4dd1e-e08d-46e8-9da9-d5217645ec7a/ HTTP/1.1" 200 2286
+ERROR 2025-09-29 01:29:06,355 views 37820 23964 Erro ao carregar convite 7ed4dd1e-e08d-46e8-9da9-d5217645ec7a: Invalid filter: 'json_script_safe'
+INFO 2025-09-29 01:29:06,356 basehttp 37820 23964 "GET /invitations/detail/7ed4dd1e-e08d-46e8-9da9-d5217645ec7a/ HTTP/1.1" 200 2286
+ERROR 2025-09-29 01:29:06,603 views 37820 23964 Erro ao carregar convite 7ed4dd1e-e08d-46e8-9da9-d5217645ec7a: Invalid filter: 'json_script_safe'
+INFO 2025-09-29 01:29:06,605 basehttp 37820 23964 "GET /invitations/detail/7ed4dd1e-e08d-46e8-9da9-d5217645ec7a/ HTTP/1.1" 200 2286
+ERROR 2025-09-29 01:30:14,949 views 37820 23964 Erro ao carregar convite 7ed4dd1e-e08d-46e8-9da9-d5217645ec7a: Invalid filter: 'json_script_safe'
+INFO 2025-09-29 01:30:14,950 basehttp 37820 23964 "GET /invitations/detail/7ed4dd1e-e08d-46e8-9da9-d5217645ec7a/ HTTP/1.1" 200 2286
+ERROR 2025-09-29 01:30:16,441 views 37820 23964 Erro ao carregar convite 7ed4dd1e-e08d-46e8-9da9-d5217645ec7a: Invalid filter: 'json_script_safe'
+INFO 2025-09-29 01:30:16,442 basehttp 37820 23964 "GET /invitations/detail/7ed4dd1e-e08d-46e8-9da9-d5217645ec7a/ HTTP/1.1" 200 2286
+ERROR 2025-09-29 01:30:18,578 views 37820 23964 Erro ao carregar convite 7ed4dd1e-e08d-46e8-9da9-d5217645ec7a: Invalid filter: 'json_script_safe'
+INFO 2025-09-29 01:30:18,579 basehttp 37820 23964 "GET /invitations/detail/7ed4dd1e-e08d-46e8-9da9-d5217645ec7a/ HTTP/1.1" 200 2286
+INFO 2025-09-29 01:31:42,323 basehttp 37820 23964 "GET /admin/ HTTP/1.1" 200 9792
+INFO 2025-09-29 01:31:44,804 basehttp 37820 23964 "GET /admin/guests/guest/ HTTP/1.1" 200 16779
+INFO 2025-09-29 01:31:44,852 basehttp 37820 23964 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-09-29 01:31:48,347 basehttp 37820 23964 "GET /admin/guests/guest/10/change/ HTTP/1.1" 200 18618
+INFO 2025-09-29 01:31:48,391 basehttp 37820 23964 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-09-29 01:32:00,534 basehttp 37820 23964 "GET /admin/invitations/invite/ HTTP/1.1" 200 17361
+INFO 2025-09-29 01:32:00,571 basehttp 37820 23964 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-09-29 01:32:07,069 basehttp 37820 23964 "GET /admin/invitations/invite/10/change/ HTTP/1.1" 200 24330
+INFO 2025-09-29 01:32:07,109 basehttp 37820 23964 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-09-29 01:32:16,131 basehttp 37820 23964 "GET /admin/invitations/invite/ HTTP/1.1" 200 17361
+INFO 2025-09-29 01:32:16,170 basehttp 37820 23964 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-09-29 01:32:17,456 basehttp 37820 23964 "GET /admin/invitations/invite/9/change/ HTTP/1.1" 200 21804
+INFO 2025-09-29 01:32:17,496 basehttp 37820 23964 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-09-29 01:32:28,437 basehttp 37820 23964 "GET /invitations/detail/1453aa0b-276c-4991-8b8b-8007223106a9 HTTP/1.1" 301 0
+ERROR 2025-09-29 01:32:28,453 views 37820 35156 Erro ao carregar convite 1453aa0b-276c-4991-8b8b-8007223106a9: Invalid filter: 'json_script_safe'
+INFO 2025-09-29 01:32:28,454 basehttp 37820 35156 "GET /invitations/detail/1453aa0b-276c-4991-8b8b-8007223106a9/ HTTP/1.1" 200 2286
+ERROR 2025-09-29 01:37:18,214 views 37820 35156 Erro ao carregar convite 1453aa0b-276c-4991-8b8b-8007223106a9: Invalid filter: 'json_script_safe'
+INFO 2025-09-29 01:37:18,215 basehttp 37820 35156 "GET /invitations/detail/1453aa0b-276c-4991-8b8b-8007223106a9/ HTTP/1.1" 200 2286
+ERROR 2025-09-29 01:37:18,587 views 37820 35156 Erro ao carregar convite 1453aa0b-276c-4991-8b8b-8007223106a9: Invalid filter: 'json_script_safe'
+INFO 2025-09-29 01:37:18,588 basehttp 37820 35156 "GET /invitations/detail/1453aa0b-276c-4991-8b8b-8007223106a9/ HTTP/1.1" 200 2286
+ERROR 2025-09-29 01:37:18,975 views 37820 35156 Erro ao carregar convite 1453aa0b-276c-4991-8b8b-8007223106a9: Invalid filter: 'json_script_safe'
+INFO 2025-09-29 01:37:18,976 basehttp 37820 35156 "GET /invitations/detail/1453aa0b-276c-4991-8b8b-8007223106a9/ HTTP/1.1" 200 2286
+ERROR 2025-09-29 01:37:19,182 views 37820 35156 Erro ao carregar convite 1453aa0b-276c-4991-8b8b-8007223106a9: Invalid filter: 'json_script_safe'
+INFO 2025-09-29 01:37:19,183 basehttp 37820 35156 "GET /invitations/detail/1453aa0b-276c-4991-8b8b-8007223106a9/ HTTP/1.1" 200 2286
+ERROR 2025-09-29 01:37:19,384 views 37820 35156 Erro ao carregar convite 1453aa0b-276c-4991-8b8b-8007223106a9: Invalid filter: 'json_script_safe'
+INFO 2025-09-29 01:37:19,385 basehttp 37820 35156 "GET /invitations/detail/1453aa0b-276c-4991-8b8b-8007223106a9/ HTTP/1.1" 200 2286
+ERROR 2025-09-29 01:37:19,559 views 37820 35156 Erro ao carregar convite 1453aa0b-276c-4991-8b8b-8007223106a9: Invalid filter: 'json_script_safe'
+INFO 2025-09-29 01:37:19,560 basehttp 37820 35156 "GET /invitations/detail/1453aa0b-276c-4991-8b8b-8007223106a9/ HTTP/1.1" 200 2286
+INFO 2025-09-29 01:41:18,750 basehttp 37820 35156 "GET /invitations/detail/1453aa0b-276c-4991-8b8b-8007223106a9/ HTTP/1.1" 200 22253
+WARNING 2025-09-29 01:41:20,430 log 37820 35156 Not Found: /favicon.ico
+WARNING 2025-09-29 01:41:20,431 basehttp 37820 35156 "GET /favicon.ico HTTP/1.1" 404 2846
+INFO 2025-09-29 01:42:05,439 basehttp 37820 35156 "POST /invitations/respond/1453aa0b-276c-4991-8b8b-8007223106a9/ HTTP/1.1" 302 0
+INFO 2025-09-29 01:42:05,455 basehttp 37820 35156 "GET /invitations/detail/1453aa0b-276c-4991-8b8b-8007223106a9/ HTTP/1.1" 200 21277
+INFO 2025-09-29 01:42:26,137 basehttp 37820 35156 "GET /invitations/detail/1453aa0b-276c-4991-8b8b-8007223106a9/ HTTP/1.1" 200 21277
+INFO 2025-09-29 01:42:28,867 basehttp 37820 35156 "GET /invitations/detail/1453aa0b-276c-4991-8b8b-8007223106a9/ HTTP/1.1" 200 21277
+WARNING 2025-09-29 01:42:30,600 log 37820 35156 Not Found: /favicon.ico
+WARNING 2025-09-29 01:42:30,600 basehttp 37820 35156 "GET /favicon.ico HTTP/1.1" 404 2846
+INFO 2025-09-29 01:42:47,236 basehttp 37820 35156 "GET /invitations/detail/1453aa0b-276c-4991-8b8b-8007223106a9/ HTTP/1.1" 200 21266
+WARNING 2025-09-29 01:42:49,294 log 37820 35156 Not Found: /favicon.ico
+WARNING 2025-09-29 01:42:49,295 basehttp 37820 35156 "GET /favicon.ico HTTP/1.1" 404 2846
+INFO 2025-09-29 01:43:08,680 basehttp 37820 35156 "GET /admin/invitations/invite/ HTTP/1.1" 200 17359
+INFO 2025-09-29 01:43:08,724 basehttp 37820 35156 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-09-29 01:43:09,825 basehttp 37820 35156 "GET /admin/invitations/invite/10/change/ HTTP/1.1" 200 24330
+INFO 2025-09-29 01:43:09,866 basehttp 37820 35156 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-09-29 01:43:22,845 basehttp 37820 21640 "GET /invitations/detail/7ed4dd1e-e08d-46e8-9da9-d5217645ec7a HTTP/1.1" 301 0
+INFO 2025-09-29 01:43:22,863 basehttp 37820 19248 "GET /invitations/detail/7ed4dd1e-e08d-46e8-9da9-d5217645ec7a/ HTTP/1.1" 200 25582
+INFO 2025-09-29 10:23:22,213 basehttp 37820 5996 "GET /admin/invitations/invite/ HTTP/1.1" 200 17359
+INFO 2025-09-29 10:23:23,986 basehttp 37820 5996 "GET /admin/invitations/invite/9/change/ HTTP/1.1" 200 21829
+INFO 2025-09-29 10:23:24,085 basehttp 37820 5996 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-09-29 10:23:54,202 basehttp 37820 5996 "POST /admin/invitations/invite/9/change/ HTTP/1.1" 302 0
+INFO 2025-09-29 10:23:54,236 basehttp 37820 5996 "GET /admin/invitations/invite/ HTTP/1.1" 200 17575
+INFO 2025-09-29 10:23:54,284 basehttp 37820 5996 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-09-29 10:23:57,184 basehttp 37820 5996 "GET /admin/invitations/invite/9/change/ HTTP/1.1" 200 22083
+INFO 2025-09-29 10:23:57,224 basehttp 37820 5996 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-09-29 10:24:10,760 basehttp 37820 5996 "GET /invitations/detail/1453aa0b-276c-4991-8b8b-8007223106a9/ HTTP/1.1" 200 21520
+INFO 2025-09-29 10:24:34,358 basehttp 37820 5996 "GET /admin/invitations/invite/ HTTP/1.1" 200 17359
+INFO 2025-09-29 10:24:35,771 basehttp 37820 5996 "GET /admin/invitations/invite/10/change/ HTTP/1.1" 200 24330
+INFO 2025-09-29 10:24:35,856 basehttp 37820 5996 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-09-29 10:24:45,628 basehttp 37820 5996 "POST /admin/invitations/invite/10/change/ HTTP/1.1" 302 0
+INFO 2025-09-29 10:24:45,687 basehttp 37820 5996 "GET /admin/invitations/invite/ HTTP/1.1" 200 17577
+INFO 2025-09-29 10:24:45,761 basehttp 37820 5996 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-09-29 10:24:47,607 basehttp 37820 5996 "GET /admin/invitations/invite/10/change/ HTTP/1.1" 200 22090
+INFO 2025-09-29 10:24:47,691 basehttp 37820 5996 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-09-29 10:24:54,900 basehttp 37820 5996 "GET /invitations/detail/7ed4dd1e-e08d-46e8-9da9-d5217645ec7a/ HTTP/1.1" 200 23342
+INFO 2025-09-29 10:25:31,919 basehttp 37820 5996 "POST /invitations/respond/7ed4dd1e-e08d-46e8-9da9-d5217645ec7a/ HTTP/1.1" 302 0
+INFO 2025-09-29 10:25:31,940 basehttp 37820 5996 "GET /invitations/detail/7ed4dd1e-e08d-46e8-9da9-d5217645ec7a/ HTTP/1.1" 200 22366
+INFO 2025-09-29 10:26:43,403 basehttp 37820 5996 "GET /admin/guests/guest/ HTTP/1.1" 200 16779
+INFO 2025-09-29 10:26:43,446 basehttp 37820 5996 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-09-29 10:27:14,274 basehttp 37820 5996 "GET /admin/invitations/invite/ HTTP/1.1" 200 17357
+INFO 2025-09-29 10:27:14,318 basehttp 37820 5996 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-09-29 10:27:28,951 basehttp 37820 5996 "GET /admin/gamification/gamification/ HTTP/1.1" 200 14259
+INFO 2025-09-29 10:27:28,993 basehttp 37820 5996 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-09-29 10:27:42,144 basehttp 37820 5996 "GET /admin/gamification/gamification/4/change/ HTTP/1.1" 200 15663
+INFO 2025-09-29 10:27:42,187 basehttp 37820 5996 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-09-29 10:27:44,694 basehttp 37820 5996 "GET /admin/gamification/gamification/ HTTP/1.1" 200 14259
+INFO 2025-09-29 10:27:57,626 basehttp 37820 5996 "GET /admin/gamification/gamification/4/change/ HTTP/1.1" 200 15663
+INFO 2025-09-29 10:27:57,670 basehttp 37820 5996 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-09-29 10:28:13,996 basehttp 37820 5996 "GET /admin/gamification/gamification/ HTTP/1.1" 200 14259
+INFO 2025-09-29 10:28:44,084 basehttp 37820 5996 "GET /admin/gamification/gamification/4/change/ HTTP/1.1" 200 15663
+INFO 2025-09-29 10:28:44,128 basehttp 37820 5996 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-09-29 10:28:46,550 basehttp 37820 5996 "GET /admin/invitations/invite/ HTTP/1.1" 200 17357
+INFO 2025-09-29 10:28:46,594 basehttp 37820 5996 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-09-29 10:28:48,158 basehttp 37820 5996 "GET /admin/guests/guest/ HTTP/1.1" 200 16779
+INFO 2025-09-29 10:28:48,206 basehttp 37820 5996 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-09-29 10:28:49,759 basehttp 37820 5996 "GET /admin/gamification/gamification/ HTTP/1.1" 200 14259
+INFO 2025-09-29 10:28:49,797 basehttp 37820 5996 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-09-29 10:29:47,583 basehttp 37820 5996 "GET /admin/invitations/invite/ HTTP/1.1" 200 17357
+INFO 2025-09-29 10:29:47,629 basehttp 37820 5996 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-09-29 10:29:51,019 basehttp 37820 5996 "GET /admin/invitations/invite/6/change/ HTTP/1.1" 200 21889
+INFO 2025-09-29 10:29:51,054 basehttp 37820 5996 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-09-29 10:30:23,579 basehttp 37820 5996 "GET /guests/create/ HTTP/1.1" 200 2745
+INFO 2025-09-29 10:33:06,446 basehttp 37820 5996 "POST /guests/create/ HTTP/1.1" 302 0
+INFO 2025-09-29 10:33:06,469 basehttp 37820 5996 "GET /guests/success/aa68133c-e091-4a37-9666-45693d6332a5/ HTTP/1.1" 200 786
+INFO 2025-09-29 10:33:23,746 basehttp 37820 5996 "GET /invitations/create/ HTTP/1.1" 200 3078
+INFO 2025-09-29 10:34:42,122 basehttp 37820 5996 "POST /invitations/create/ HTTP/1.1" 302 0
+INFO 2025-09-29 10:34:42,154 basehttp 37820 5996 "GET /invitations/detail/3c9e4f00-492a-4911-843e-1b10aa07ad40/ HTTP/1.1" 200 23341
+INFO 2025-09-29 10:38:46,892 basehttp 37820 5996 "GET /invitations/detail/3c9e4f00-492a-4911-843e-1b10aa07ad40/ HTTP/1.1" 200 23328
+WARNING 2025-09-29 10:38:48,400 log 37820 5996 Not Found: /favicon.ico
+WARNING 2025-09-29 10:38:48,401 basehttp 37820 5996 "GET /favicon.ico HTTP/1.1" 404 2846
+INFO 2025-09-29 10:42:17,408 basehttp 37820 5996 "GET /invitations/detail/3c9e4f00-492a-4911-843e-1b10aa07ad40/ HTTP/1.1" 200 23328
+INFO 2025-09-29 10:42:32,798 basehttp 37820 5996 "GET /invitations/detail/3c9e4f00-492a-4911-843e-1b10aa07ad40/ HTTP/1.1" 200 23328
+INFO 2025-09-29 10:42:49,506 basehttp 37820 5996 "GET /invitations/detail/3c9e4f00-492a-4911-843e-1b10aa07ad40/ HTTP/1.1" 200 23328
+INFO 2025-09-29 10:43:46,929 basehttp 37820 34948 "POST /invitations/respond/3c9e4f00-492a-4911-843e-1b10aa07ad40/ HTTP/1.1" 302 0
+INFO 2025-09-29 10:43:46,949 basehttp 37820 34948 "GET /invitations/detail/3c9e4f00-492a-4911-843e-1b10aa07ad40/ HTTP/1.1" 200 22352
