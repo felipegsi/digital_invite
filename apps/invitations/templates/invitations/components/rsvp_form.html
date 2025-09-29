@@ -8,12 +8,14 @@
             {% csrf_token %}
             
             <div class="rsvp-buttons">
-                <button type="button" class="rsvp-btn accept-btn" onclick="confirmAccept()">
+                <!-- Accept: envia diretamente o form com invitation_status=accepted -->
+                <button type="submit" name="invitation_status" value="accepted" class="rsvp-btn accept-btn">
                     <i class="icon-heart"></i>
                     <span>Confirmar Presença</span>
                 </button>
                 
-                <button type="button" class="rsvp-btn decline-btn" onclick="showDeclineForm()">
+                <!-- Decline: exibe o formulário de motivo; confirmação final faz submit com invitation_status=declined -->
+                <button type="button" class="rsvp-btn decline-btn" id="show-decline-btn">
                     <i class="icon-sad"></i>
                     <span>Não Poderei Comparecer</span>
                 </button>
@@ -30,17 +32,13 @@
                         maxlength="500"
                     ></textarea>
                     <div class="decline-actions">
-                        <button type="button" class="btn-secondary" onclick="hideDeclineForm()">
-                            Cancelar
-                        </button>
+                        <button type="button" class="btn-secondary" id="cancel-decline">Cancelar</button>
                         <button type="submit" name="invitation_status" value="declined" class="btn-decline">
                             Confirmar Ausência
                         </button>
                     </div>
                 </div>
             </div>
-            
-            <input type="hidden" name="invitation_status" id="invitation_status" value="">
         </form>
     </div>
     
@@ -284,20 +282,23 @@
 </style>
 
 <script>
-function confirmAccept() {
-    if (confirm('Confirmar sua presença no evento?')) {
-        document.getElementById('invitation_status').value = 'accepted';
-        document.getElementById('rsvp-form').submit();
+// Small unobtrusive script to toggle the decline reason form. Kept minimal to avoid duplication.
+document.addEventListener('DOMContentLoaded', function () {
+    var showBtn = document.getElementById('show-decline-btn');
+    var cancelBtn = document.getElementById('cancel-decline');
+    var declineForm = document.getElementById('decline-form');
+
+    if (showBtn && declineForm) {
+        showBtn.addEventListener('click', function () {
+            declineForm.style.display = 'block';
+            declineForm.scrollIntoView({ behavior: 'smooth' });
+        });
     }
-}
 
-function showDeclineForm() {
-    const form = document.getElementById('decline-form');
-    form.style.display = 'block';
-    form.scrollIntoView({ behavior: 'smooth' });
-}
-
-function hideDeclineForm() {
-    document.getElementById('decline-form').style.display = 'none';
-}
+    if (cancelBtn && declineForm) {
+        cancelBtn.addEventListener('click', function () {
+            declineForm.style.display = 'none';
+        });
+    }
+});
 </script>

@@ -8,72 +8,301 @@
 <link rel="preload" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;700&family=Inter:wght@300;400;500;600&display=swap" as="style">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-<!-- Tailwind CDN fallback for development (useful when npm/build not available) -->
-<script src="https://cdn.tailwindcss.com"></script>
-
-<!-- Tailwind generated stylesheet (build with: npm run build:css) -->
+<!-- Tailwind CSS -->
 <link href="{% static 'css/tailwind.css' %}" rel="stylesheet">
 
 <style>
-/* Small helper fallbacks not covered by Tailwind utilities */
-.splash-slide { background-repeat: no-repeat; background-size: cover; background-position: center; }
-.splash-caption { text-shadow: 0 6px 18px rgba(0,0,0,0.6); }
+/* Base styles and utilities */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f8f5f0;
+    color: #333;
+}
+
+h1, h2, h3, h4, .font-serif {
+    font-family: 'Playfair Display', serif;
+}
+
+.content-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+/* Splash screen and slideshow styles */
+.splash-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.splash-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 1s ease, transform 1.5s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.splash-slide.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.splash-slide:not(.visible) {
+    opacity: 0;
+    transform: scale(1.05);
+}
+
+.splash-caption {
+    color: #fff;
+    font-size: 1.8rem;
+    text-align: center;
+    padding: 1rem;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    max-width: 80%;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.splash-progress {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.5rem;
+}
+
+.splash-dot {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    transition: background-color 0.3s ease;
+}
+
+.splash-dot.active {
+    background-color: #fff;
+}
+
+.splash-skip {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    border-radius: 9999px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 0.875rem;
+    z-index: 1010;
+    transition: background-color 0.2s ease;
+}
+
+.splash-skip:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* RSVP Modal */
+.rsvp-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.rsvp-modal.open {
+    display: flex;
+}
+
+.rsvp-card {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 1.5rem;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+/* Animations and transitions */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Main invite content */
+.invite-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+.invite-header, .content-section {
+    width: 100%;
+    background-color: #fff;
+    border-radius: 1rem;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    text-align: center;
+}
+
+.guest-profile {
+    margin-bottom: 1.5rem;
+}
+
+.profile-picture {
+    width: 7rem;
+    height: 7rem;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid #fbbf24;
+    margin: 0 auto 1.25rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.guest-name {
+    font-size: 2rem;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+}
+
+.personalized-message {
+    font-style: italic;
+    color: #6b7280;
+    max-width: 36rem;
+    margin: 0 auto;
+}
+
+/* Form controls */
+input, select, textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    margin-top: 0.25rem;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-primary {
+    background-color: #fbbf24;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background-color: #f59e0b;
+}
+
+.btn-ghost {
+    background-color: #f3f4f6;
+    color: #374151;
+}
+
+.btn-ghost:hover {
+    background-color: #e5e7eb;
+}
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="invite-container min-h-screen max-w-3xl mx-auto p-6 flex flex-col items-center justify-center">
+<!-- Splash Screen Overlay -->
+<div id="splashOverlay" class="splash-overlay" aria-hidden="true" style="display:none;">
+    <button id="splashSkipBtn" class="splash-skip" aria-label="Pular slideshow">Pular</button>
 
-    <!-- Splash Overlay (always rendered; shows memories if present, otherwise uses fallbacks) -->
-    <div id="splashOverlay" class="splash-overlay fixed inset-0 flex items-center justify-center z-50 overflow-hidden" aria-hidden="true" style="display:none; background:transparent;">
-        <button id="splashSkipBtn" class="splash-skip absolute top-4 right-5 bg-black/40 text-white px-3 py-2 rounded-full focus:outline-none" aria-label="Pular slideshow">Pular</button>
-
-        <div class="splash-stage relative w-full h-full" id="splashStage">
-            {% comment %} Slides will be populated by JS using data-* attributes below {% endcomment %}
-            {% if media_data.memories_urls and media_data.memories_urls|length > 0 %}
-                {% for url in media_data.memories_urls %}
-                    <div class="splash-slide absolute inset-0 bg-cover bg-center opacity-0 transform scale-105 transition-opacity duration-1000" data-src="{{ url }}"></div>
-                {% endfor %}
+    <div class="splash-stage relative w-full h-full" id="splashStage">
+        <!-- Splash Slides -->
+        {% if media_data.memories_urls and media_data.memories_urls|length > 0 %}
+            {% for url in media_data.memories_urls %}
+                <div class="splash-slide" data-src="{{ url }}"></div>
+            {% endfor %}
+        {% else %}
+            <!-- Fallback: use logo, avatar or default textual slide -->
+            {% if media_data.logo_url %}
+                <div class="splash-slide" data-src="{{ media_data.logo_url }}"></div>
+            {% elif media_data.avatar_url %}
+                <div class="splash-slide" data-src="{{ media_data.avatar_url }}"></div>
             {% else %}
-                {# Fallback: use logo, avatar or default textual slide so splash always shows #}
-                {% if media_data.logo_url %}
-                    <div class="splash-slide absolute inset-0 bg-cover bg-center opacity-0 transform scale-105 transition-opacity duration-1000" data-src="{{ media_data.logo_url }}"></div>
-                {% elif media_data.avatar_url %}
-                    <div class="splash-slide absolute inset-0 bg-cover bg-center opacity-0 transform scale-105 transition-opacity duration-1000" data-src="{{ media_data.avatar_url }}"></div>
-                {% else %}
-                    <div class="splash-slide absolute inset-0 flex items-center justify-center bg-gradient-to-br from-gray-900 to-gray-700" role="img" aria-label="Thalita e Felipe">
-                        <div class="splash-caption text-white text-3xl font-serif">Thalita &amp; Felipe</div>
-                    </div>
-                {% endif %}
+                <div class="splash-slide" style="background-color: #1a1a1a;">
+                    <div class="splash-caption">Thalita &amp; Felipe</div>
+                </div>
             {% endif %}
+        {% endif %}
 
-            <!-- progress dots -->
-            <div class="splash-progress absolute bottom-6 left-1/2 transform -translate-x-1/2 flex gap-2" id="splashProgress"></div>
+        <!-- Progress dots -->
+        <div class="splash-progress" id="splashProgress"></div>
 
-            <!-- loader shown until first image loads (visible only when overlay displayed) -->
-            <div id="splashLoader" class="absolute inset-0 flex items-center justify-center" style="display:none;">
-                <div class="animate-spin rounded-full h-12 w-12 border-t-4 border-yellow-400 border-gray-200"></div>
-            </div>
-
-            <!-- final logo / end frame (hidden until last) -->
-            <div class="splash-logo-end absolute inset-0 hidden items-center justify-center flex-col gap-4 text-white" id="splashEnd">
+        <!-- Final logo / end frame -->
+        <div class="splash-logo-end" id="splashEnd" style="display: none;">
+            <div class="flex flex-col items-center justify-center h-full text-white text-center">
                 {% if media_data.logo_url %}
-                <img src="{{ media_data.logo_url }}" alt="Logo dos Noivos" class="max-w-xs drop-shadow-lg">
+                    <img src="{{ media_data.logo_url }}" alt="Logo dos Noivos" class="max-w-xs drop-shadow-lg mb-4">
                 {% else %}
-                <div class="text-3xl font-serif">Thalita &amp; Felipe</div>
+                    <div class="text-3xl font-serif mb-4">Thalita &amp; Felipe</div>
                 {% endif %}
-                <div class="opacity-90 text-center max-w-[70%]">"Assim já não são dois, mas uma só carne." — Mateus 19:6</div>
+                <div class="opacity-90 max-w-md px-4">
+                    "Assim já não são dois, mas uma só carne." — Mateus 19:6
+                </div>
             </div>
         </div>
     </div>
+</div>
 
+<div class="invite-container">
     <!-- Cabeçalho Principal -->
-    <header class="invite-header fade-in bg-white rounded-2xl p-12 mb-8 shadow relative overflow-hidden text-center" id="mainInviteContent" style="opacity:1;">
-        <div class="guest-profile mb-6">
+    <header class="invite-header fade-in" id="mainInviteContent">
+        <div class="guest-profile">
             {% if media_data.avatar_url %}
             <img src="{{ media_data.avatar_url }}" 
                  alt="{{ invite.guest.first_name }}" 
-                 class="profile-picture w-28 h-28 rounded-full object-cover border-4 border-yellow-400 mx-auto mb-5 shadow-lg"
+                 class="profile-picture"
                  loading="eager">
             {% endif %}
             
@@ -82,56 +311,59 @@
             {% endif %}
         </div>
         
-        <h1 class="guest-name font-serif text-4xl text-gray-900 mb-2">
-            {{ invite.guest.first_name }} {{ invite.guest.last_name|default:"" }} ("{{ invite.guest.nickname }}")
+        <h1 class="guest-name">
+            {{ invite.guest.first_name }} {{ invite.guest.last_name|default:"" }}
+            {% if invite.guest.nickname %}("{{ invite.guest.nickname }}"){% endif %}
         </h1>
         
-        <div class="personalized-message text-lg italic text-gray-500 max-w-xl mx-auto">
+        <div class="personalized-message">
             {{ invite.personalized_message|default:"Temos o prazer de convidá-lo(a) para nosso evento especial!" }}
         </div>
     </header>
 
     <!-- Vídeo Pré-confirmação -->
     {% if invite.pre_confirmation_video_url %}
-    <section class="content-section fade-in bg-white rounded-xl p-8 mb-8 shadow">
-        <h2 class="section-title font-serif text-2xl text-yellow-600 mb-6 text-center">Uma Mensagem Especial</h2>
-        <div class="video-container relative pb-[56.25%] h-0 overflow-hidden rounded-lg shadow">
+    <section class="content-section fade-in">
+        <h2 class="text-2xl text-yellow-600 mb-6 text-center">Uma Mensagem Especial</h2>
+        <div class="relative pb-[56.25%] h-0 overflow-hidden rounded-lg shadow">
             <iframe src="{{ invite.pre_confirmation_video_url|get_video_embed_url }}"
                     allowfullscreen
-                    loading="lazy" class="absolute inset-0 w-full h-full border-0 rounded-lg"></iframe>
+                    loading="lazy"
+                    class="absolute inset-0 w-full h-full border-0 rounded-lg"></iframe>
         </div>
     </section>
     {% endif %}
 
     <!-- Galeria de Memórias -->
     {% if media_data.memories_urls %}
-    <section class="content-section fade-in bg-white rounded-xl p-8 mb-8 shadow">
+    <section class="content-section fade-in">
         {% memory_gallery media_data %}
     </section>
     {% endif %}
 
     <!-- Formulário RSVP -->
-    <section class="content-section fade-in bg-white rounded-xl p-8 mb-8 shadow">
+    <section class="content-section fade-in">
         {% rsvp_form invite %}
     </section>
 
     <!-- Vídeo de Agradecimento -->
     {% if invite.thank_you_video_url and invite.invitation_status == 'accepted' %}
-    <section class="content-section fade-in bg-white rounded-xl p-8 mb-8 shadow">
-        <h2 class="section-title font-serif text-2xl text-yellow-600 mb-6 text-center">Mensagem de Agradecimento</h2>
-        <div class="video-container relative pb-[56.25%] h-0 overflow-hidden rounded-lg shadow">
+    <section class="content-section fade-in">
+        <h2 class="text-2xl text-yellow-600 mb-6 text-center">Mensagem de Agradecimento</h2>
+        <div class="relative pb-[56.25%] h-0 overflow-hidden rounded-lg shadow">
             <iframe src="{{ invite.thank_you_video_url|get_video_embed_url }}"
                     allowfullscreen
-                    loading="lazy" class="absolute inset-0 w-full h-full border-0 rounded-lg"></iframe>
+                    loading="lazy"
+                    class="absolute inset-0 w-full h-full border-0 rounded-lg"></iframe>
         </div>
     </section>
     {% endif %}
 
     <!-- QR Code -->
     {% if invite.qr_code_id %}
-    <section class="content-section qr-section fade-in bg-white rounded-xl p-8 mb-8 text-center shadow">
-        <h2 class="section-title font-serif text-2xl text-yellow-600 mb-6 text-center">Seu Convite Digital</h2>
-        <div class="qr-code-container inline-block p-5 bg-white rounded-lg shadow border border-gray-100">
+    <section class="content-section fade-in text-center">
+        <h2 class="text-2xl text-yellow-600 mb-6">Seu Convite Digital</h2>
+        <div class="inline-block p-5 bg-white rounded-lg shadow border border-gray-100">
             <img src="{{ invite.get_qr_code_url }}"
                  alt="QR Code do Convite" 
                  width="200" 
@@ -145,11 +377,12 @@
     {% endif %}
 </div>
 
-<!-- RSVP Profile Completion Modal (shown after Accept) -->
-<div id="rsvpModal" class="rsvp-modal fixed inset-0 hidden items-center justify-center bg-black/60 z-50" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="rsvp-card bg-white p-6 rounded-lg w-full max-w-md shadow" role="document">
+<!-- RSVP Profile Completion Modal -->
+<div id="rsvpModal" class="rsvp-modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="rsvp-card" role="document">
         <h3 class="text-lg font-semibold mb-2">Complete o seu perfil</h3>
         <p class="text-sm text-gray-600 mb-4">Obrigado por confirmar! Para completar a sua experiência, preencha algumas informações:</p>
+
         <label for="dietary" class="block text-sm font-medium text-gray-700">Restrições alimentares</label>
         <input id="dietary" name="dietary" placeholder="Ex: Sem glúten, vegetariano" class="mt-1 block w-full rounded-md border-gray-200 shadow-sm p-2" />
 
@@ -164,351 +397,296 @@
             <option value="other">Outro</option>
         </select>
 
-        <div id="dressSuggestions" style="margin-top:12px;"></div>
+        <div id="dressSuggestions" class="mt-3 p-2 bg-yellow-50 rounded-md text-sm"></div>
 
-        <div class="rsvp-actions mt-4 flex gap-3 justify-end">
-            <button class="btn btn-ghost bg-gray-100 px-4 py-2 rounded" id="rsvpSkip">Pular</button>
-            <button class="btn btn-primary bg-yellow-500 text-white px-4 py-2 rounded" id="rsvpSave">Salvar</button>
+        <div class="mt-4 flex gap-3 justify-end">
+            <button class="btn btn-ghost" id="rsvpSkip">Pular</button>
+            <button class="btn btn-primary" id="rsvpSave">Salvar</button>
         </div>
     </div>
 </div>
-
-<script>
-// Removed immediate-display fallback to avoid a brief black flash.
-// Background images are still assigned early, but overlay is shown only when runSlideshow starts.
-</script>
-
 {% endblock %}
 
 {% block scripts %}
 <script>
-// Lazy loading para imagens e splash slideshow control
 document.addEventListener('DOMContentLoaded', function() {
-    // Intersection Observer para animações
+    // ===== Animation Observer Setup =====
     const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
     const observer = new IntersectionObserver(function(entries) {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
+                entry.target.classList.add('visible');
             }
         });
     }, observerOptions);
 
-    document.querySelectorAll('.fade-in').forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(20px)';
-        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        observer.observe(el);
-    });
+    // Add all fade-in elements to the observer
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-    // Preload critical images
-    const criticalImages = document.querySelectorAll('img[loading="eager"]');
-    criticalImages.forEach(img => {
-        const preloadLink = document.createElement('link');
-        preloadLink.rel = 'preload';
-        preloadLink.as = 'image';
-        preloadLink.href = img.src;
-        document.head.appendChild(preloadLink);
-    });
-
-    // Performance monitoring (optional)
-    if ('performance' in window) {
-        window.addEventListener('load', function() {
-            if (performance.timing && performance.timing.loadEventEnd) {
-                const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
-                console.log('Page load time:', loadTime + 'ms');
-            }
-        });
-    }
-
-    // --- Splash slideshow implementation ---
-     const splashOverlay = document.getElementById('splashOverlay');
-     const hasSplash = !!splashOverlay;
-
-     const slides = Array.from(document.querySelectorAll('.splash-slide'));
-     const progress = document.getElementById('splashProgress');
-     const endFrame = document.getElementById('splashEnd');
-     const mainInvite = document.getElementById('mainInviteContent');
-
-    // Build progress dots (only if splash present)
-    if (hasSplash && progress) {
-        slides.forEach((s, i) => {
-            const dot = document.createElement('div'); dot.className = 'splash-dot';
-            if (i === 0) dot.classList.add('active');
-            progress.appendChild(dot);
-        });
-    }
-
-    // Helper: get caption fallback
-    function fallbackCaption(index) {
-        const guests = ['Thalita & Felipe', 'Nosso amor', 'Momentos juntos', 'A nossa história'];
-        const verses = ['"Assim já não são dois, mas uma só carne." — Mateus 19:6'];
-        return guests[index] || verses[0] || '';
-    }
-
-    // Populate background images and captions (if splash present)
-    if (hasSplash) {
-        slides.forEach((slide, idx) => {
-            const src = slide.getAttribute('data-src');
-            const caption = (slide.getAttribute('data-caption') || '').trim() || fallbackCaption(idx);
-            if (src && !slide.style.backgroundImage) slide.style.backgroundImage = `url('${src}')`;
-            const captionEl = document.createElement('div'); captionEl.className = 'splash-caption';
-            captionEl.innerText = caption;
-            slide.appendChild(captionEl);
-        });
-    }
-
-    // Preload images (wait for first image to load before revealing)
-    function preloadImages(slides, timeout = 2000) {
-        return new Promise(resolve => {
-            if (!slides || slides.length === 0) return resolve([]);
-            let resolved = false;
-            const urls = slides.map(s => s.getAttribute('data-src')).filter(Boolean);
-            if (urls.length === 0) return resolve([]);
-
-            // resolve on first load or after timeout
-            const onLoad = (url) => {
-                if (!resolved) {
-                    resolved = true; clearTimers(); resolve([url]);
-                }
-            };
-
-            const onError = () => {
-                if (!resolved) { /* keep waiting for others or timeout */ }
-            };
-
-            const timers = [];
-            function clearTimers(){ timers.forEach(t => clearTimeout(t)); }
-
-            urls.forEach(u => {
-                const img = new Image();
-                img.onload = () => onLoad(u);
-                img.onerror = onError;
-                img.src = u;
-            });
-
-            // fallback timeout
-            timers.push(setTimeout(() => { if (!resolved) { resolved = true; clearTimers(); resolve([]); } }, timeout));
-        });
-    }
-
-    // Config: duration per slide (4-6s recommended)
-    const SLIDE_DURATION = 5000; // 5s default
-    const TRANSITION_BUFFER = 900; // allow time for crossfade
-
-    let current = 0;
-    let running = true;
-
-    function showSlide(index) {
-        slides.forEach((s, i) => {
-            s.classList.toggle('visible', i === index);
-        });
-        // update dots
-        Array.from(progress.children).forEach((d, i) => d.classList.toggle('active', i === index));
-    }
-
-    async function runSlideshow() {
-        if (!hasSplash) return;
-
-        // Preload first images (or timeout) before showing the overlay to avoid black flash
-        await preloadImages(slides, 2500);
-
-        // Now show overlay and start slideshow
-        splashOverlay.style.display = 'flex';
-        splashOverlay.setAttribute('aria-hidden','false');
-        // ensure overlay is transparent then switch to dark at reveal for cinematic effect
-        splashOverlay.style.background = 'transparent';
-
-        // reveal first slide then start normal slideshow
-        showSlide(0);
-
-
-        for (let i = 0; i < slides.length; i++) {
-            current = i;
-            showSlide(i);
-            await new Promise(res => setTimeout(res, SLIDE_DURATION));
-        }
-
-        // show final logo frame for a short time
-        slides.forEach(s => s.classList.remove('visible'));
-        if (endFrame) endFrame.style.display = 'flex';
-        await new Promise(res => setTimeout(res, 2500));
-
-        // hide overlay with a gentle fade
-        if (splashOverlay) {
-            splashOverlay.style.transition = 'opacity 0.8s ease';
-            splashOverlay.style.opacity = '0';
-            setTimeout(() => { splashOverlay.style.display = 'none'; splashOverlay.setAttribute('aria-hidden','true'); }, 900);
-        }
-
-        // optionally focus main content
-        if (mainInvite) mainInvite.scrollIntoView({behavior:'smooth'});
-    }
-
-    // Skip button handler
+    // ===== Splash Screen Implementation =====
+    const splashOverlay = document.getElementById('splashOverlay');
+    const slides = Array.from(document.querySelectorAll('.splash-slide'));
+    const progressContainer = document.getElementById('splashProgress');
+    const endFrame = document.getElementById('splashEnd');
+    const mainInvite = document.getElementById('mainInviteContent');
     const skipBtn = document.getElementById('splashSkipBtn');
-    if (skipBtn) {
-        skipBtn.addEventListener('click', function(){
-            endSlideshowGraceful();
+
+    // Configuration
+    const SLIDE_DURATION = 5000; // 5 seconds per slide
+    let currentSlide = 0;
+
+    // Create progress indicators
+    if (progressContainer && slides.length > 0) {
+        slides.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.className = 'splash-dot';
+            progressContainer.appendChild(dot);
         });
     }
 
-    // Allow Escape to skip
-    document.addEventListener('keydown', function(e){ if (e.key === 'Escape') endSlideshowGraceful(); });
-
-    // Start slideshow slightly after DOM ready to ensure images begin loading
-    // If user prefers reduced motion, skip the cinematic slideshow and reveal content immediately
-    const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReduced) {
-        // reveal content immediately
-        endSlideshowImmediate();
-    } else {
-        setTimeout(() => { runSlideshow().catch(e => console.error(e)); }, 300);
+    // Helper function to get caption fallbacks
+    function getCaption(index) {
+        const captions = [
+            'Thalita & Felipe',
+            'Nosso amor',
+            'Momentos juntos',
+            'A nossa história',
+            '"Assim já não são dois, mas uma só carne." — Mateus 19:6'
+        ];
+        return captions[index % captions.length];
     }
 
-    // helper to immediately end the slideshow and reveal content (used by skip)
-    function endSlideshowImmediate() {
-        if (!splashOverlay) return;
-        splashOverlay.style.display = 'none';
-        splashOverlay.setAttribute('aria-hidden', 'true');
-        if (mainInvite) mainInvite.scrollIntoView({behavior:'auto'});
+    // Set up slides with background images and captions
+    slides.forEach((slide, index) => {
+        // Set background image
+        const imageUrl = slide.getAttribute('data-src');
+        if (imageUrl) {
+            slide.style.backgroundImage = `url('${imageUrl}')`;
+        }
+
+        // Add caption if not already present
+        if (!slide.querySelector('.splash-caption')) {
+            const caption = document.createElement('div');
+            caption.className = 'splash-caption';
+            caption.textContent = getCaption(index);
+            slide.appendChild(caption);
+        }
+
+        // Preload images
+        if (imageUrl) {
+            const img = new Image();
+            img.src = imageUrl;
+        }
+    });
+
+    // Show a specific slide
+    function showSlide(index) {
+        // Hide all slides
+        slides.forEach(slide => slide.classList.remove('visible'));
+
+        // Show the current slide
+        if (slides[index]) {
+            slides[index].classList.add('visible');
+        }
+
+        // Update progress dots
+        const dots = progressContainer.querySelectorAll('.splash-dot');
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('active', i === index);
+        });
     }
 
-    function endSlideshowGraceful() {
-        if (!splashOverlay) return;
-        splashOverlay.style.transition = 'opacity 0.5s ease';
+    // End the slideshow gracefully
+    function endSlideshow() {
         splashOverlay.style.opacity = '0';
-        setTimeout(() => { splashOverlay.style.display = 'none'; splashOverlay.setAttribute('aria-hidden','true'); }, 520);
+        splashOverlay.style.transition = 'opacity 0.8s ease';
+
+        // Hide after transition completes
+        setTimeout(() => {
+            splashOverlay.style.display = 'none';
+            mainInvite.scrollIntoView({behavior: 'smooth'});
+        }, 800);
     }
 
-    // --- RSVP modal flow: intercept accept action if present ---
-    // Observe for the rsvp buttons rendered by the RSVP form inclusion tag
-    function attachRsvpHooks() {
-        // support the existing accept button markup (.accept-btn)
-        const acceptBtn = document.querySelector('.accept-btn');
-        if (acceptBtn) {
-            acceptBtn.addEventListener('click', function(e) {
-                // We'll let the form submission/redirect happen; server will signal to open modal on load.
-                // But also schedule the modal just in case (non-blocking)
-                setTimeout(() => showRsvpModal(), 600);
-            });
+    // Skip button event handler
+    if (skipBtn) {
+        skipBtn.addEventListener('click', endSlideshow);
+    }
+
+    // Escape key to skip
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') endSlideshow();
+    });
+
+    // Run the slideshow
+    async function runSlideshow() {
+        // Make sure splash overlay is fully visible
+        splashOverlay.style.display = 'flex';
+        splashOverlay.style.opacity = '1';
+
+        // Run through each slide
+        for (let i = 0; i < slides.length; i++) {
+            currentSlide = i;
+            showSlide(i);
+            await new Promise(resolve => setTimeout(resolve, SLIDE_DURATION));
         }
 
-        // Attach to the RSVP form submit as a fallback
-        const rsvpForm = document.getElementById('rsvp-form');
-        if (rsvpForm) {
-            rsvpForm.addEventListener('submit', function(e) {
-                setTimeout(() => showRsvpModal(), 600);
-            });
+        // Show end frame
+        slides.forEach(slide => slide.classList.remove('visible'));
+        if (endFrame) {
+            endFrame.style.display = 'flex';
+            await new Promise(resolve => setTimeout(resolve, 2500));
         }
+
+        // End slideshow
+        endSlideshow();
     }
 
-    function showRsvpModal() {
-        const modal = document.getElementById('rsvpModal');
-        if (!modal) return;
-        modal.classList.add('open');
-        modal.setAttribute('aria-hidden','false');
-        // autofocus first field
-        const first = modal.querySelector('input, select, textarea');
-        if (first) first.focus();
+    // Check if user prefers reduced motion
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (prefersReducedMotion) {
+        // Skip slideshow for accessibility
+        splashOverlay.style.display = 'none';
+    } else {
+        // Preload the first image (or wait a short timeout) before showing overlay to avoid black flash
+        (function startWhenReady(){
+            if (!slides || slides.length === 0) {
+                // nothing to show
+                splashOverlay.style.display = 'none';
+                return;
+            }
+
+            const firstSrc = slides[0].getAttribute('data-src');
+            if (!firstSrc) {
+                // No image source, start immediately
+                setTimeout(() => { runSlideshow().catch(() => {}); }, 300);
+                return;
+            }
+
+            // Wait for the first image to load or timeout after 2500ms
+            let loaded = false;
+            const img = new Image();
+            const timer = setTimeout(() => {
+                if (!loaded) {
+                    // fallback: start slideshow to avoid blocking forever
+                    runSlideshow().catch(() => {});
+                }
+            }, 2500);
+
+            img.onload = function() {
+                loaded = true; clearTimeout(timer);
+                // ensure overlay is shown and start
+                runSlideshow().catch(() => {});
+            };
+            img.onerror = function() {
+                // on error, start slideshow anyway after timeout
+            };
+            img.src = firstSrc;
+        })();
     }
 
-    // modal UI logic
+    // ===== RSVP Modal Functionality =====
+    const rsvpModal = document.getElementById('rsvpModal');
     const rsvpSkip = document.getElementById('rsvpSkip');
     const rsvpSave = document.getElementById('rsvpSave');
-    const rsvpModal = document.getElementById('rsvpModal');
-    const genderEl = document.getElementById('gender');
+    const genderSelect = document.getElementById('gender');
     const dressSuggestions = document.getElementById('dressSuggestions');
 
-    function updateDressSuggestions() {
-        const val = genderEl.value;
-        let html = '';
-        if (val === 'male') {
-            html = '<strong>Dress code:</strong> Paleta sugerida para homens: ternos azul-marinho, cinza-chumbo, gravatas em tons terrosos.';
-        } else if (val === 'female') {
-            html = '<strong>Dress code:</strong> Paleta sugerida para mulheres: vestidos em tons pastéis, dourados e estampas discretas.';
-        } else if (val === 'other') {
-            html = '<strong>Dress code:</strong> Elegante / formal — escolha o que te fizer sentir especial.';
-        } else {
-            html = '<strong>Dress code:</strong> Elegante / formal.';
-        }
-        dressSuggestions.innerHTML = html;
-    }
-
-    if (genderEl) genderEl.addEventListener('change', updateDressSuggestions);
-    updateDressSuggestions();
-
-    function closeModal() {
+    // Show RSVP modal
+    function showRsvpModal() {
         if (!rsvpModal) return;
-        rsvpModal.classList.remove('open');
-        rsvpModal.setAttribute('aria-hidden','true');
+
+        rsvpModal.classList.add('open');
+        rsvpModal.setAttribute('aria-hidden', 'false');
+
+        // Focus first input
+        const firstInput = rsvpModal.querySelector('input, select');
+        if (firstInput) firstInput.focus();
     }
 
-    rsvpSkip && rsvpSkip.addEventListener('click', function(){ closeModal(); });
-    rsvpSave && rsvpSave.addEventListener('click', function(){
-        // collect fields
-        const dietary = document.getElementById('dietary').value;
-        const music = document.getElementById('music').value;
-        const gender = document.getElementById('gender').value;
+    // Close RSVP modal
+    function closeRsvpModal() {
+        if (!rsvpModal) return;
 
-        // send via fetch to a simple endpoint if available (assume an endpoint exists at /invitations/{{ invite.pk }}/complete_profile/)
-        const url = window.location.pathname.replace(/\/$/, '') + '/complete_profile/';
+        rsvpModal.classList.remove('open');
+        rsvpModal.setAttribute('aria-hidden', 'true');
+    }
 
-        // CSRF helper (reads csrftoken cookie)
-        function getCookie(name) {
-            const value = `; ${document.cookie}`;
-            const parts = value.split(`; ${name}=`);
-            if (parts.length === 2) return parts.pop().split(';').shift();
-            return null;
+    // Update dress code suggestions based on gender
+    function updateDressSuggestions() {
+        const gender = genderSelect.value;
+        let suggestion = '<strong>Dress code:</strong> Elegante / formal.';
+
+        if (gender === 'male') {
+            suggestion = '<strong>Dress code:</strong> Paleta sugerida para homens: ternos azul-marinho, cinza-chumbo, gravatas em tons terrosos.';
+        } else if (gender === 'female') {
+            suggestion = '<strong>Dress code:</strong> Paleta sugerida para mulheres: vestidos em tons pastéis, dourados e estampas discretas.';
+        } else if (gender === 'other') {
+            suggestion = '<strong>Dress code:</strong> Elegante / formal — escolha o que te fizer sentir especial.';
         }
-        const csrftoken = getCookie('csrftoken');
 
-        fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type':'application/json', 'X-Requested-With':'XMLHttpRequest', 'X-CSRFToken': csrftoken },
-            body: JSON.stringify({ dietary, music, gender })
-        }).then(resp => {
-            // ignore response for now; close modal
-            closeModal();
-            // optionally show a small toast or update the page
-            console.log('Profile saved');
-        }).catch(err => { console.error('Failed to save profile', err); closeModal(); });
-    });
+        dressSuggestions.innerHTML = suggestion;
+    }
 
-    // Auto-open profile modal if server requested it (rendered by Django)
+    // Add event listeners
+    if (genderSelect) {
+        genderSelect.addEventListener('change', updateDressSuggestions);
+        updateDressSuggestions();
+    }
+
+    if (rsvpSkip) rsvpSkip.addEventListener('click', closeRsvpModal);
+
+    if (rsvpSave) {
+        rsvpSave.addEventListener('click', function() {
+            // Collect fields and post via fetch; errors are silently handled in UI
+            const dietary = document.getElementById('dietary').value;
+            const music = document.getElementById('music').value;
+            const gender = document.getElementById('gender').value;
+
+            const url = window.location.pathname.replace(/\/$/, '') + '/complete_profile/';
+
+            function getCsrfToken() {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; csrftoken=`);
+                if (parts.length === 2) return parts.pop().split(';').shift();
+                return null;
+            }
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': getCsrfToken()
+                },
+                body: JSON.stringify({ dietary, music, gender })
+            })
+            .then(() => { closeRsvpModal(); })
+            .catch(() => { closeRsvpModal(); });
+        });
+    }
+
+    // Auto-open profile modal if server requested it
     try {
-        const shouldShow = {{ should_show_profile_modal|yesno:"true,false" }};
-        if (shouldShow) {
-            // Wait until the modal functions are defined
-            setTimeout(() => { showRsvpModal(); }, 600);
+        const shouldShowModal = {{ should_show_profile_modal|yesno:"true,false" }};
+        if (shouldShowModal) {
+            setTimeout(showRsvpModal, 600);
         }
     } catch (err) {
-        // ignore if template var not present
+        // Ignore if template variable not present
     }
 
-    // attach hooks once rsvp form renders
-    setTimeout(attachRsvpHooks, 500);
+    // Ensure RSVP form submit disables submit buttons to prevent double submits
+    (function(){
+        const rsvpForm = document.getElementById('rsvp-form');
+        if (!rsvpForm) return;
+        rsvpForm.addEventListener('submit', function(e){
+            // disable all submit buttons inside the form
+            Array.from(rsvpForm.querySelectorAll('button[type="submit"]')).forEach(b => b.disabled = true);
+        });
+    })();
 
 });
 </script>
-
-<script>
-// Inline fallback to open profile modal early if server-side requested it.
-+(function(){
-    try {
-        var shouldShow = {{ should_show_profile_modal|yesno:"true,false" }};
-        if (shouldShow) {
-            var modal = document.getElementById('rsvpModal');
-            if (modal) {
-                modal.classList.add('open');
-                modal.setAttribute('aria-hidden','false');
-                var first = modal.querySelector('input, select, textarea');
-                if (first) try { first.focus(); } catch(e){}
-            }
-        }
-    } catch(e) { /* ignore */ }
-})();
-</script>
-
 {% endblock %}

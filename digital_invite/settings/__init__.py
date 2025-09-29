@@ -8,9 +8,7 @@ load_dotenv(BASE_DIR / '.env')
 
 _env = os.getenv('DJANGO_ENV', 'dev').lower()
 
-# Opção simples: print (útil em dev)
-print(f"--------> Loading settings: { _env } <--------")
-
+# Do not print on import in production; selection below will import the correct settings module
 if _env in ('prod', 'production'):
     from .prod import *  # noqa: F401,F403
 elif _env in ('dev', 'development'):

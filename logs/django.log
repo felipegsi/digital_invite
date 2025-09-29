@@ -311,3 +311,89 @@ INFO 2025-09-29 22:37:22,282 basehttp 25784 24064 "GET /invitations/detail/efbaf
 WARNING 2025-09-29 22:37:22,356 basehttp 25784 24064 "GET /static/css/tailwind.css HTTP/1.1" 404 1862
 INFO 2025-09-29 22:37:26,959 basehttp 25784 30272 "GET /invitations/detail/efbaf5f8-d5db-4506-b255-3ded122cfead/?profile_modal=6 HTTP/1.1" 200 35194
 WARNING 2025-09-29 22:37:27,024 basehttp 25784 30272 "GET /static/css/tailwind.css HTTP/1.1" 404 1862
+INFO 2025-09-29 22:46:30,073 autoreload 9812 33968 Watching for file changes with StatReloader
+INFO 2025-09-29 22:46:35,161 basehttp 9812 17448 "GET /invitations/detail/efbaf5f8-d5db-4506-b255-3ded122cfead/ HTTP/1.1" 200 35194
+WARNING 2025-09-29 22:46:35,208 basehttp 9812 17448 "GET /static/css/tailwind.css HTTP/1.1" 404 1862
+INFO 2025-09-29 22:46:40,155 basehttp 9812 8444 "GET /invitations/detail/efbaf5f8-d5db-4506-b255-3ded122cfead/ HTTP/1.1" 200 35194
+WARNING 2025-09-29 22:46:40,231 basehttp 9812 8444 "GET /static/css/tailwind.css HTTP/1.1" 404 1862
+WARNING 2025-09-29 22:46:42,526 log 9812 31840 Not Found: /favicon.ico
+WARNING 2025-09-29 22:46:42,526 basehttp 9812 31840 "GET /favicon.ico HTTP/1.1" 404 2846
+INFO 2025-09-29 22:46:45,950 basehttp 9812 31840 "GET /invitations/detail/efbaf5f8-d5db-4506-b255-3ded122cfead/?profile_modal=6 HTTP/1.1" 200 35194
+WARNING 2025-09-29 22:46:46,007 basehttp 9812 31840 "GET /static/css/tailwind.css HTTP/1.1" 404 1862
+INFO 2025-09-29 22:58:21,340 autoreload 23336 30388 Watching for file changes with StatReloader
+WARNING 2025-09-29 22:58:25,147 log 23336 23080 Not Found: /
+WARNING 2025-09-29 22:58:25,147 basehttp 23336 23080 "GET / HTTP/1.1" 404 2795
+INFO 2025-09-29 22:58:28,405 basehttp 23336 23080 "GET /invitations/detail/efbaf5f8-d5db-4506-b255-3ded122cfead/ HTTP/1.1" 200 35194
+WARNING 2025-09-29 22:58:28,489 basehttp 23336 23080 "GET /static/css/tailwind.css HTTP/1.1" 404 1862
+INFO 2025-09-29 22:58:34,130 basehttp 23336 10164 "GET /invitations/detail/efbaf5f8-d5db-4506-b255-3ded122cfead/ HTTP/1.1" 200 35194
+WARNING 2025-09-29 22:58:34,211 basehttp 23336 10164 "GET /static/css/tailwind.css HTTP/1.1" 404 1862
+WARNING 2025-09-29 22:58:36,656 log 23336 19256 Not Found: /favicon.ico
+WARNING 2025-09-29 22:58:36,659 basehttp 23336 19256 "GET /favicon.ico HTTP/1.1" 404 2846
+INFO 2025-09-29 23:12:14,379 autoreload 20320 13132 Watching for file changes with StatReloader
+WARNING 2025-09-29 23:12:23,955 log 20320 27464 Not Found: /
+WARNING 2025-09-29 23:12:23,955 basehttp 20320 27464 "GET / HTTP/1.1" 404 2795
+INFO 2025-09-29 23:12:34,038 basehttp 20320 27464 "GET /invitations/detail/efbaf5f8-d5db-4506-b255-3ded122cfead/ HTTP/1.1" 200 33320
+WARNING 2025-09-29 23:12:34,112 basehttp 20320 27464 "GET /static/css/tailwind.css HTTP/1.1" 404 1862
+INFO 2025-09-29 23:12:45,073 basehttp 20320 35756 "GET /invitations/detail/efbaf5f8-d5db-4506-b255-3ded122cfead/ HTTP/1.1" 200 33320
+WARNING 2025-09-29 23:12:45,143 basehttp 20320 35756 "GET /static/css/tailwind.css HTTP/1.1" 404 1862
+INFO 2025-09-29 23:12:56,380 basehttp 20320 24840 "POST /invitations/detail/efbaf5f8-d5db-4506-b255-3ded122cfead/complete_profile/ HTTP/1.1" 200 17
+INFO 2025-09-29 23:26:05,306 autoreload 7992 37604 Watching for file changes with StatReloader
+WARNING 2025-09-29 23:26:08,831 log 20320 37208 Not Found: /
+WARNING 2025-09-29 23:26:08,831 basehttp 20320 37208 "GET / HTTP/1.1" 404 2795
+INFO 2025-09-29 23:26:11,689 basehttp 20320 37208 "GET /invitations/detail/efbaf5f8-d5db-4506-b255-3ded122cfead/ HTTP/1.1" 200 33321
+WARNING 2025-09-29 23:26:11,721 basehttp 20320 37208 "GET /static/css/tailwind.css HTTP/1.1" 404 1862
+INFO 2025-09-29 23:26:18,170 basehttp 20320 2736 "GET /invitations/detail/efbaf5f8-d5db-4506-b255-3ded122cfead/ HTTP/1.1" 200 33321
+WARNING 2025-09-29 23:26:18,204 basehttp 20320 2736 "GET /static/css/tailwind.css HTTP/1.1" 404 1862
+WARNING 2025-09-29 23:26:19,722 log 20320 25920 Not Found: /favicon.ico
+WARNING 2025-09-29 23:26:19,723 basehttp 20320 25920 "GET /favicon.ico HTTP/1.1" 404 2846
+INFO 2025-09-29 23:40:30,469 autoreload 20320 13132 C:\Users\felip\OneDriveUniversity\Desktop\Projects\digital_invite\apps\invitations\views.py changed, reloading.
+INFO 2025-09-29 23:40:30,617 autoreload 7992 37604 C:\Users\felip\OneDriveUniversity\Desktop\Projects\digital_invite\apps\invitations\views.py changed, reloading.
+INFO 2025-09-29 23:40:31,795 autoreload 36664 37692 Watching for file changes with StatReloader
+INFO 2025-09-29 23:43:09,721 autoreload 27824 12516 C:\Users\felip\OneDriveUniversity\Desktop\Projects\digital_invite\apps\invitations\views.py changed, reloading.
+INFO 2025-09-29 23:43:09,737 autoreload 36664 37692 C:\Users\felip\OneDriveUniversity\Desktop\Projects\digital_invite\apps\invitations\views.py changed, reloading.
+INFO 2025-09-29 23:43:10,786 autoreload 10248 33848 Watching for file changes with StatReloader
+INFO 2025-09-29 23:43:10,793 autoreload 31840 34420 Watching for file changes with StatReloader
+INFO 2025-09-29 23:50:50,115 autoreload 31840 34420 C:\Users\felip\OneDriveUniversity\Desktop\Projects\digital_invite\digital_invite\settings\__init__.py changed, reloading.
+INFO 2025-09-29 23:50:50,117 autoreload 10248 33848 C:\Users\felip\OneDriveUniversity\Desktop\Projects\digital_invite\digital_invite\settings\__init__.py changed, reloading.
+INFO 2025-09-29 23:50:52,752 autoreload 15972 6424 Watching for file changes with StatReloader
+INFO 2025-09-29 23:50:52,754 autoreload 26960 24156 Watching for file changes with StatReloader
+INFO 2025-09-29 23:52:48,277 autoreload 15972 6424 C:\Users\felip\OneDriveUniversity\Desktop\Projects\digital_invite\apps\guests\models.py changed, reloading.
+INFO 2025-09-29 23:52:48,291 autoreload 26960 24156 C:\Users\felip\OneDriveUniversity\Desktop\Projects\digital_invite\apps\guests\models.py changed, reloading.
+INFO 2025-09-29 23:52:51,235 autoreload 23036 22536 Watching for file changes with StatReloader
+INFO 2025-09-29 23:52:51,235 autoreload 37840 19096 Watching for file changes with StatReloader
+INFO 2025-09-30 00:07:53,591 autoreload 2996 22720 Watching for file changes with StatReloader
+INFO 2025-09-30 00:08:01,473 basehttp 23036 5444 "GET /invitations/detail/efbaf5f8-d5db-4506-b255-3ded122cfead/ HTTP/1.1" 200 34165
+WARNING 2025-09-30 00:08:01,539 basehttp 23036 5444 "GET /static/css/tailwind.css HTTP/1.1" 404 1862
+INFO 2025-09-30 00:08:07,007 basehttp 23036 30408 "GET /invitations/detail/efbaf5f8-d5db-4506-b255-3ded122cfead/ HTTP/1.1" 200 34165
+WARNING 2025-09-30 00:08:07,035 basehttp 23036 30408 "GET /static/css/tailwind.css HTTP/1.1" 404 1862
+WARNING 2025-09-30 00:08:08,539 log 23036 30816 Not Found: /favicon.ico
+WARNING 2025-09-30 00:08:08,540 basehttp 23036 30816 "GET /favicon.ico HTTP/1.1" 404 2846
+INFO 2025-09-30 00:08:12,154 basehttp 23036 30816 "GET /invitations/detail/efbaf5f8-d5db-4506-b255-3ded122cfead/ HTTP/1.1" 200 34165
+WARNING 2025-09-30 00:08:12,186 basehttp 23036 30816 "GET /static/css/tailwind.css HTTP/1.1" 404 1862
+WARNING 2025-09-30 00:08:13,597 log 23036 29908 Not Found: /favicon.ico
+WARNING 2025-09-30 00:08:13,598 basehttp 23036 29908 "GET /favicon.ico HTTP/1.1" 404 2846
+INFO 2025-09-30 00:18:01,953 autoreload 23036 22536 C:\Users\felip\OneDriveUniversity\Desktop\Projects\digital_invite\digital_invite\urls.py changed, reloading.
+INFO 2025-09-30 00:18:02,345 autoreload 2996 22720 C:\Users\felip\OneDriveUniversity\Desktop\Projects\digital_invite\apps\invitations\views.py changed, reloading.
+INFO 2025-09-30 00:18:02,356 autoreload 37840 19096 C:\Users\felip\OneDriveUniversity\Desktop\Projects\digital_invite\digital_invite\urls.py changed, reloading.
+INFO 2025-09-30 00:18:03,436 autoreload 29940 33356 Watching for file changes with StatReloader
+INFO 2025-09-30 00:18:03,703 autoreload 23956 24996 Watching for file changes with StatReloader
+INFO 2025-09-30 00:18:03,825 autoreload 9596 36104 Watching for file changes with StatReloader
+INFO 2025-09-30 00:22:10,903 autoreload 37340 16048 Watching for file changes with StatReloader
+WARNING 2025-09-30 00:22:15,158 log 29940 25656 Not Found: /
+WARNING 2025-09-30 00:22:15,159 basehttp 29940 25656 "GET / HTTP/1.1" 404 2795
+WARNING 2025-09-30 00:23:39,356 log 29940 25656 Not Found: /
+WARNING 2025-09-30 00:23:39,356 basehttp 29940 25656 "GET / HTTP/1.1" 404 2795
+WARNING 2025-09-30 00:23:39,404 log 29940 25656 Not Found: /favicon.ico
+WARNING 2025-09-30 00:23:39,405 basehttp 29940 25656 "GET /favicon.ico HTTP/1.1" 404 2846
+INFO 2025-09-30 00:24:16,854 basehttp 29940 25656 "GET /invitations/detail/efbaf5f8-d5db-4506-b255-3ded122cfead/ HTTP/1.1" 200 34165
+WARNING 2025-09-30 00:24:16,888 basehttp 29940 25656 "GET /static/css/tailwind.css HTTP/1.1" 404 1862
+WARNING 2025-09-30 00:24:19,008 log 29940 17520 Not Found: /favicon.ico
+WARNING 2025-09-30 00:24:19,009 basehttp 29940 17520 "GET /favicon.ico HTTP/1.1" 404 2846
+INFO 2025-09-30 00:24:23,063 basehttp 29940 17520 "GET /invitations/detail/efbaf5f8-d5db-4506-b255-3ded122cfead/ HTTP/1.1" 200 34165
+WARNING 2025-09-30 00:24:23,105 basehttp 29940 17520 "GET /static/css/tailwind.css HTTP/1.1" 404 1862
+INFO 2025-09-30 00:24:25,743 basehttp 29940 9120 "GET /invitations/detail/efbaf5f8-d5db-4506-b255-3ded122cfead/ HTTP/1.1" 200 34165
+WARNING 2025-09-30 00:24:25,790 basehttp 29940 9120 "GET /static/css/tailwind.css HTTP/1.1" 404 1862
+WARNING 2025-09-30 00:24:27,146 log 29940 23272 Not Found: /favicon.ico
+WARNING 2025-09-30 00:24:27,147 basehttp 29940 23272 "GET /favicon.ico HTTP/1.1" 404 2846
+INFO 2025-09-30 00:24:30,861 basehttp 29940 23272 "GET /invitations/detail/efbaf5f8-d5db-4506-b255-3ded122cfead/ HTTP/1.1" 200 34165
+WARNING 2025-09-30 00:24:30,895 basehttp 29940 23272 "GET /static/css/tailwind.css HTTP/1.1" 404 1862
