@@ -1,14 +1,14 @@
 import re
 from io import BytesIO
 
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from django.utils import timezone
 from django.utils.safestring import mark_safe
 from django.contrib.admin.views.decorators import staff_member_required
-from django.views.decorators.cache import cache_page
-from django.views.decorators.vary import vary_on_headers
 from django.core.exceptions import PermissionDenied
+from django.views.decorators.vary import vary_on_headers
+from django.urls import reverse
+from urllib.parse import urlencode
 
 from apps.core.services.appwrite_service import AppwriteService
 from apps.invitations.services.invite_service import InviteService
@@ -19,6 +19,7 @@ from apps.guests.models import Guest
 import qrcode
 from qrcode.main import QRCode
 from qrcode.image.svg import SvgImage
+import json
 
 @staff_member_required
 def create_invite(request):
@@ -101,40 +102,6 @@ def generate_link(request,path):
 
     return link
 
-def respond_invite(request, token):
-    """
-    Processa a resposta do convidado ao convite
-    """
-    invite = get_object_or_404(Invite, token=token)
-
-    if request.method == "POST":
-        status = request.POST.get('invitation_status')
-        if status in ['accepted', 'declined']:
-            invite.invitation_status = status
-            invite.response_date = timezone.now()
-            if status == 'declined':
-                invite.decline_reason = request.POST.get('decline_reason', '')
-            invite.save()
-
-            if status == 'accepted':
-                invite.accept_invitation()
-
-            # Retornar para a página de detalhes em vez de thanks
-            return redirect('invitations:invite_detail', token=token)
-
-    return render(request, "invitations/respond_invite.html", {"invite": invite})
-
-def get_client_ip(request):
-    """
-    Obtém o IP real do cliente
-    """
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
-        ip = x_forwarded_for.split(',')[0]
-    else:
-        ip = request.META.get('REMOTE_ADDR')
-    return ip
-
 @vary_on_headers('User-Agent')
 def invite_detail(request, token):
     """
@@ -152,10 +119,27 @@ def invite_detail(request, token):
         
         # Obtém URLs otimizadas das mídias
         media_data = InviteService.get_optimized_media_urls(invite.guest)
-        
+        # If there are no memories, use the avatar as a single splash slide as a graceful fallback
+        if not media_data.get('memories_urls') or len(media_data.get('memories_urls')) == 0:
+            if invite.guest and getattr(invite.guest, 'avatar_url', None):
+                media_data['memories_urls'] = [invite.guest.avatar_url]
+                # also provide a thumbnail copy
+                media_data['memories_thumbnails'] = [invite.guest.avatar_url]
+
+        # Determine whether we should auto-open the profile completion modal on page load
+        should_show_profile_modal = False
+        try:
+            guest = invite.guest
+            profile_incomplete = (not getattr(guest, 'dietary_restrictions', None)) or (not getattr(guest, 'music_suggestion', None))
+            if invite.invitation_status == 'accepted' and profile_incomplete:
+                should_show_profile_modal = True
+        except Exception:
+            should_show_profile_modal = False
+
         context = {
             'invite': invite,
             'media_data': media_data,
+            'should_show_profile_modal': should_show_profile_modal,
         }
         
         return render(request, "invitations/invite_detail.html", context)
@@ -195,7 +179,14 @@ def respond_invite(request, token):
         )
         
         if success:
-            return redirect('invitations:invite_detail', token=token)
+            # If accepted, and guest profile incomplete, redirect with a flag to open profile modal
+            redirect_url = reverse('invitations:invite_detail', kwargs={'token': token})
+            if status == 'accepted':
+                guest = invite.guest
+                profile_incomplete = (not getattr(guest, 'dietary_restrictions', None)) or (not getattr(guest, 'music_suggestion', None))
+                if profile_incomplete:
+                    redirect_url = f"{redirect_url}?{urlencode({'profile_modal': '1'})}"
+            return redirect(redirect_url)
         else:
             # Retorna erro se processamento falhou
             return render(request, "invitations/invite_detail.html", {
@@ -208,6 +199,17 @@ def respond_invite(request, token):
         'invite': invite,
         'media_data': InviteService.get_optimized_media_urls(invite.guest)
     })
+
+def get_client_ip(request):
+    """
+    Obtém o IP real do cliente
+    """
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
 
 def generate_qr_code_image(link):
     """Gera um QR code em formato PNG para o link fornecido e retorna o objeto de imagem"""
@@ -263,3 +265,62 @@ def generate_qr_code_vector(link):
 
     return mark_safe(svg)
 
+def complete_profile(request, token):
+    """
+    Endpoint to complete guest profile after RSVP accept.
+    Expects JSON body: { dietary, music, gender }
+    Maps gender ('male'|'female'|'other'|'') to Guest.gender ('M'|'F'|None).
+    Returns JSON response.
+    """
+    try:
+        invite = get_object_or_404(Invite, token=token, is_active=True)
+
+        # Validate access
+        is_valid, error_message = InviteService.validate_invite_access(invite)
+        if not is_valid:
+            return JsonResponse({'success': False, 'error': str(error_message)}, status=403)
+
+        if request.method != 'POST':
+            return JsonResponse({'success': False, 'error': 'Method not allowed'}, status=405)
+
+        # Parse JSON body
+        try:
+            payload = json.loads(request.body.decode('utf-8') or '{}')
+        except Exception:
+            return JsonResponse({'success': False, 'error': 'Invalid JSON'}, status=400)
+
+        dietary = payload.get('dietary')
+        music = payload.get('music')
+        gender_in = (payload.get('gender') or '').lower()
+
+        # Map gender to Guest.gender choices
+        if gender_in == 'male' or gender_in == 'm':
+            gender_val = 'M'
+        elif gender_in == 'female' or gender_in == 'f':
+            gender_val = 'F'
+        else:
+            gender_val = None
+
+        guest = invite.guest
+
+        if dietary is not None:
+            guest.dietary_restrictions = dietary.strip()[:200]
+        if music is not None:
+            guest.music_suggestion = music.strip()[:200]
+        # Update gender only if provided
+        if gender_in != '':
+            guest.gender = gender_val
+
+        guest.save()
+
+        return JsonResponse({'success': True})
+
+    except Http404:
+        return JsonResponse({'success': False, 'error': 'Invite not found'}, status=404)
+    except PermissionDenied as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=403)
+    except Exception as e:
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.exception('Error saving profile')
+        return JsonResponse({'success': False, 'error': 'Server error'}, status=500)

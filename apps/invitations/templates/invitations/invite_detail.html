@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% load invite_extras %}
 
 {% block title %}{{ invite.guest.first_name }} {{ invite.guest.last_name|default:"" }} - Convite Especial{% endblock %}
@@ -6,320 +7,195 @@
 {% block extra_css %}
 <link rel="preload" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;700&family=Inter:wght@300;400;500;600&display=swap" as="style">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<!-- Tailwind CDN fallback for development (useful when npm/build not available) -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Tailwind generated stylesheet (build with: npm run build:css) -->
+<link href="{% static 'css/tailwind.css' %}" rel="stylesheet">
+
 <style>
-    :root {
-        --primary-color: #d4af37;
-        --secondary-color: #8b7355;
-        --accent-color: #f4f1ea;
-        --text-dark: #2c2c2c;
-        --text-light: #6b6b6b;
-        --white: #ffffff;
-        --shadow: 0 10px 30px rgba(0,0,0,0.1);
-        --shadow-hover: 0 15px 40px rgba(0,0,0,0.15);
-    }
-
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    body {
-        font-family: 'Inter', sans-serif;
-        line-height: 1.6;
-        color: var(--text-dark);
-        background: linear-gradient(135deg, #f8f6f0 0%, #e8e2d4 100%);
-        min-height: 100vh;
-    }
-
-    .invite-container {
-        max-width: 900px;
-        margin: 0 auto;
-        padding: 20px;
-    }
-
-    .invite-header {
-        text-align: center;
-        padding: 60px 40px;
-        background: var(--white);
-        border-radius: 25px;
-        margin-bottom: 30px;
-        box-shadow: var(--shadow);
-        position: relative;
-        overflow: hidden;
-    }
-
-    .invite-header::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 5px;
-        background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-    }
-
-    .guest-profile {
-        margin-bottom: 30px;
-    }
-
-    .profile-picture {
-        width: 120px;
-        height: 120px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 4px solid var(--primary-color);
-        margin: 0 auto 20px;
-        display: block;
-        box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
-    }
-
-    .guest-name {
-        font-family: 'Playfair Display', serif;
-        font-size: 2.5em;
-        font-weight: 300;
-        color: var(--text-dark);
-        margin-bottom: 10px;
-    }
-
-    .guest-emoji {
-        font-size: 2em;
-        margin: 15px 0;
-    }
-
-    .personalized-message {
-        font-size: 1.2em;
-        font-style: italic;
-        color: var(--text-light);
-        max-width: 600px;
-        margin: 0 auto;
-        line-height: 1.8;
-    }
-
-    .content-section {
-        background: var(--white);
-        border-radius: 20px;
-        padding: 40px;
-        margin-bottom: 30px;
-        box-shadow: var(--shadow);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .content-section:hover {
-        transform: translateY(-5px);
-        box-shadow: var(--shadow-hover);
-    }
-
-    .section-title {
-        font-family: 'Playfair Display', serif;
-        font-size: 1.8em;
-        color: var(--primary-color);
-        margin-bottom: 25px;
-        text-align: center;
-        position: relative;
-    }
-
-    .section-title::after {
-        content: '';
-        position: absolute;
-        bottom: -10px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 50px;
-        height: 2px;
-        background: var(--primary-color);
-    }
-
-    .video-container {
-        position: relative;
-        padding-bottom: 56.25%;
-        height: 0;
-        overflow: hidden;
-        border-radius: 15px;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-    }
-
-    .video-container iframe {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        border: none;
-        border-radius: 15px;
-    }
-
-    .qr-section {
-        text-align: center;
-    }
-
-    .qr-code-container {
-        display: inline-block;
-        padding: 20px;
-        background: var(--white);
-        border-radius: 15px;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        border: 2px solid var(--accent-color);
-    }
-
-    .qr-code-container img {
-        border-radius: 8px;
-    }
-
-    .loading-spinner {
-        display: inline-block;
-        width: 40px;
-        height: 40px;
-        border: 3px solid var(--accent-color);
-        border-radius: 50%;
-        border-top-color: var(--primary-color);
-        animation: spin 1s ease-in-out infinite;
-    }
-
-    @keyframes spin {
-        to { transform: rotate(360deg); }
-    }
-
-    .fade-in {
-        animation: fadeIn 0.6s ease-in;
-    }
-
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-        .invite-container {
-            padding: 15px;
-        }
-
-        .invite-header {
-            padding: 40px 20px;
-        }
-
-        .guest-name {
-            font-size: 2em;
-        }
-
-        .content-section {
-            padding: 25px;
-        }
-
-        .personalized-message {
-            font-size: 1.1em;
-        }
-    }
-
-    @media (max-width: 480px) {
-        .guest-name {
-            font-size: 1.8em;
-        }
-
-        .profile-picture {
-            width: 100px;
-            height: 100px;
-        }
-
-        .content-section {
-            padding: 20px;
-        }
-    }
+/* Small helper fallbacks not covered by Tailwind utilities */
+.splash-slide { background-repeat: no-repeat; background-size: cover; background-position: center; }
+.splash-caption { text-shadow: 0 6px 18px rgba(0,0,0,0.6); }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="invite-container">
+<div class="invite-container max-w-3xl mx-auto p-6">
+
+    <!-- Splash Overlay (always rendered; shows memories if present, otherwise uses fallbacks) -->
+    <div id="splashOverlay" class="splash-overlay fixed inset-0 flex items-center justify-center bg-black z-50 overflow-hidden" aria-hidden="false">
+        <button id="splashSkipBtn" class="splash-skip absolute top-4 right-5 bg-black/40 text-white px-3 py-2 rounded-full focus:outline-none" aria-label="Pular slideshow">Pular</button>
+
+        <div class="splash-stage relative w-full h-full" id="splashStage">
+            {% comment %} Slides will be populated by JS using data-* attributes below {% endcomment %}
+            {% if media_data.memories_urls and media_data.memories_urls|length > 0 %}
+                {% for url in media_data.memories_urls %}
+                    <div class="splash-slide absolute inset-0 bg-cover bg-center opacity-0 transform scale-105 transition-opacity duration-1000" data-src="{{ url }}"></div>
+                {% endfor %}
+            {% else %}
+                {# Fallback: use logo, avatar or default textual slide so splash always shows #}
+                {% if media_data.logo_url %}
+                    <div class="splash-slide absolute inset-0 bg-cover bg-center opacity-0 transform scale-105 transition-opacity duration-1000" data-src="{{ media_data.logo_url }}"></div>
+                {% elif media_data.avatar_url %}
+                    <div class="splash-slide absolute inset-0 bg-cover bg-center opacity-0 transform scale-105 transition-opacity duration-1000" data-src="{{ media_data.avatar_url }}"></div>
+                {% else %}
+                    <div class="splash-slide absolute inset-0 flex items-center justify-center bg-gradient-to-br from-gray-900 to-gray-700" role="img" aria-label="Thalita e Felipe">
+                        <div class="splash-caption text-white text-3xl font-serif">Thalita &amp; Felipe</div>
+                    </div>
+                {% endif %}
+            {% endif %}
+
+            <!-- progress dots -->
+            <div class="splash-progress absolute bottom-6 left-1/2 transform -translate-x-1/2 flex gap-2" id="splashProgress"></div>
+
+            <!-- final logo / end frame (hidden until last) -->
+            <div class="splash-logo-end absolute inset-0 hidden items-center justify-center flex-col gap-4 text-white" id="splashEnd">
+                {% if media_data.logo_url %}
+                <img src="{{ media_data.logo_url }}" alt="Logo dos Noivos" class="max-w-xs drop-shadow-lg">
+                {% else %}
+                <div class="text-3xl font-serif">Thalita &amp; Felipe</div>
+                {% endif %}
+                <div class="opacity-90 text-center max-w-[70%]">"Assim já não são dois, mas uma só carne." — Mateus 19:6</div>
+            </div>
+        </div>
+    </div>
+
     <!-- Cabeçalho Principal -->
-    <header class="invite-header fade-in">
-        <div class="guest-profile">
+    <header class="invite-header fade-in bg-white rounded-2xl p-12 mb-8 shadow relative overflow-hidden text-center" id="mainInviteContent" style="opacity:1;">
+        <div class="guest-profile mb-6">
             {% if media_data.avatar_url %}
             <img src="{{ media_data.avatar_url }}" 
                  alt="{{ invite.guest.first_name }}" 
-                 class="profile-picture"
+                 class="profile-picture w-28 h-28 rounded-full object-cover border-4 border-yellow-400 mx-auto mb-5 shadow-lg"
                  loading="eager">
             {% endif %}
             
             {% if invite.guest.emoji %}
-            <div class="guest-emoji">{{ invite.guest.emoji }}</div>
+            <div class="guest-emoji text-2xl mt-3">{{ invite.guest.emoji }}</div>
             {% endif %}
         </div>
         
-        <h1 class="guest-name">
+        <h1 class="guest-name font-serif text-4xl text-gray-900 mb-2">
             {{ invite.guest.first_name }} {{ invite.guest.last_name|default:"" }} ("{{ invite.guest.nickname }}")
         </h1>
         
-        <div class="personalized-message">
+        <div class="personalized-message text-lg italic text-gray-500 max-w-xl mx-auto">
             {{ invite.personalized_message|default:"Temos o prazer de convidá-lo(a) para nosso evento especial!" }}
         </div>
     </header>
 
     <!-- Vídeo Pré-confirmação -->
     {% if invite.pre_confirmation_video_url %}
-    <section class="content-section fade-in">
-        <h2 class="section-title">Uma Mensagem Especial</h2>
-        <div class="video-container">
-            <iframe src="{{ invite.pre_confirmation_video_url|get_video_embed_url }}" 
+    <section class="content-section fade-in bg-white rounded-xl p-8 mb-8 shadow">
+        <h2 class="section-title font-serif text-2xl text-yellow-600 mb-6 text-center">Uma Mensagem Especial</h2>
+        <div class="video-container relative pb-[56.25%] h-0 overflow-hidden rounded-lg shadow">
+            <iframe src="{{ invite.pre_confirmation_video_url|get_video_embed_url }}"
                     allowfullscreen
-                    loading="lazy"></iframe>
+                    loading="lazy" class="absolute inset-0 w-full h-full border-0 rounded-lg"></iframe>
         </div>
     </section>
     {% endif %}
 
     <!-- Galeria de Memórias -->
     {% if media_data.memories_urls %}
-    <section class="content-section fade-in">
+    <section class="content-section fade-in bg-white rounded-xl p-8 mb-8 shadow">
         {% memory_gallery media_data %}
     </section>
     {% endif %}
 
     <!-- Formulário RSVP -->
-    <section class="content-section fade-in">
+    <section class="content-section fade-in bg-white rounded-xl p-8 mb-8 shadow">
         {% rsvp_form invite %}
     </section>
 
     <!-- Vídeo de Agradecimento -->
     {% if invite.thank_you_video_url and invite.invitation_status == 'accepted' %}
-    <section class="content-section fade-in">
-        <h2 class="section-title">Mensagem de Agradecimento</h2>
-        <div class="video-container">
-            <iframe src="{{ invite.thank_you_video_url|get_video_embed_url }}" 
+    <section class="content-section fade-in bg-white rounded-xl p-8 mb-8 shadow">
+        <h2 class="section-title font-serif text-2xl text-yellow-600 mb-6 text-center">Mensagem de Agradecimento</h2>
+        <div class="video-container relative pb-[56.25%] h-0 overflow-hidden rounded-lg shadow">
+            <iframe src="{{ invite.thank_you_video_url|get_video_embed_url }}"
                     allowfullscreen
-                    loading="lazy"></iframe>
+                    loading="lazy" class="absolute inset-0 w-full h-full border-0 rounded-lg"></iframe>
         </div>
     </section>
     {% endif %}
 
     <!-- QR Code -->
     {% if invite.qr_code_id %}
-    <section class="content-section qr-section fade-in">
-        <h2 class="section-title">Seu Convite Digital</h2>
-        <div class="qr-code-container">
-            <img src="{{ invite.get_qr_code_url }}" 
+    <section class="content-section qr-section fade-in bg-white rounded-xl p-8 mb-8 text-center shadow">
+        <h2 class="section-title font-serif text-2xl text-yellow-600 mb-6 text-center">Seu Convite Digital</h2>
+        <div class="qr-code-container inline-block p-5 bg-white rounded-lg shadow border border-gray-100">
+            <img src="{{ invite.get_qr_code_url }}"
                  alt="QR Code do Convite" 
                  width="200" 
                  height="200"
                  loading="lazy">
         </div>
-        <p style="margin-top: 15px; color: var(--text-light);">
+        <p class="mt-4 text-gray-500">
             Compartilhe este QR Code para mostrar seu convite
         </p>
     </section>
     {% endif %}
 </div>
+
+<!-- RSVP Profile Completion Modal (shown after Accept) -->
+<div id="rsvpModal" class="rsvp-modal fixed inset-0 hidden items-center justify-center bg-black/60 z-50" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="rsvp-card bg-white p-6 rounded-lg w-full max-w-md shadow" role="document">
+        <h3 class="text-lg font-semibold mb-2">Complete o seu perfil</h3>
+        <p class="text-sm text-gray-600 mb-4">Obrigado por confirmar! Para completar a sua experiência, preencha algumas informações:</p>
+        <label for="dietary" class="block text-sm font-medium text-gray-700">Restrições alimentares</label>
+        <input id="dietary" name="dietary" placeholder="Ex: Sem glúten, vegetariano" class="mt-1 block w-full rounded-md border-gray-200 shadow-sm p-2" />
+
+        <label for="music" class="block text-sm font-medium text-gray-700 mt-3">Sugestões musicais</label>
+        <input id="music" name="music" placeholder="Música ou artista" class="mt-1 block w-full rounded-md border-gray-200 shadow-sm p-2" />
+
+        <label for="gender" class="block text-sm font-medium text-gray-700 mt-3">Eu sou</label>
+        <select id="gender" name="gender" class="mt-1 block w-full rounded-md border-gray-200 shadow-sm p-2">
+            <option value="">Prefiro não dizer</option>
+            <option value="male">Homem</option>
+            <option value="female">Mulher</option>
+            <option value="other">Outro</option>
+        </select>
+
+        <div id="dressSuggestions" style="margin-top:12px;"></div>
+
+        <div class="rsvp-actions mt-4 flex gap-3 justify-end">
+            <button class="btn btn-ghost bg-gray-100 px-4 py-2 rounded" id="rsvpSkip">Pular</button>
+            <button class="btn btn-primary bg-yellow-500 text-white px-4 py-2 rounded" id="rsvpSave">Salvar</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// Inline fallback: ensure the first slide is visible as soon as possible
+(function(){
+    try {
+        var splash = document.getElementById('splashOverlay');
+        if (!splash) return;
+        var first = splash.querySelector('.splash-slide');
+        if (first) {
+            // ensure background already set from data-src
+            var src = first.getAttribute('data-src');
+            if (src && !first.style.backgroundImage) first.style.backgroundImage = 'url("'+src+'")';
+            first.classList.add('visible');
+        }
+        // keep overlay visible until main script hides it
+        splash.style.display = 'flex';
+        splash.style.opacity = '1';
+    } catch (e) { /* fail silently */ }
+})();
+</script>
+
 {% endblock %}
 
 {% block scripts %}
 <script>
-// Lazy loading para imagens
+// Lazy loading para imagens e splash slideshow control
 document.addEventListener('DOMContentLoaded', function() {
     // Intersection Observer para animações
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-    
+    const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
     const observer = new IntersectionObserver(function(entries) {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -328,16 +204,15 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }, observerOptions);
-    
-    // Observar elementos com fade-in
+
     document.querySelectorAll('.fade-in').forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(20px)';
         el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
         observer.observe(el);
     });
-    
-    // Preload de imagens críticas
+
+    // Preload critical images
     const criticalImages = document.querySelectorAll('img[loading="eager"]');
     criticalImages.forEach(img => {
         const preloadLink = document.createElement('link');
@@ -346,14 +221,263 @@ document.addEventListener('DOMContentLoaded', function() {
         preloadLink.href = img.src;
         document.head.appendChild(preloadLink);
     });
-    
-    // Performance monitoring
+
+    // Performance monitoring (optional)
     if ('performance' in window) {
         window.addEventListener('load', function() {
-            const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
-            console.log('Page load time:', loadTime + 'ms');
+            if (performance.timing && performance.timing.loadEventEnd) {
+                const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
+                console.log('Page load time:', loadTime + 'ms');
+            }
         });
     }
+
+    // --- Splash slideshow implementation ---
+    const splashOverlay = document.getElementById('splashOverlay');
+    const hasSplash = !!splashOverlay;
+
+    const slides = Array.from(document.querySelectorAll('.splash-slide'));
+    const progress = document.getElementById('splashProgress');
+    const endFrame = document.getElementById('splashEnd');
+    const mainInvite = document.getElementById('mainInviteContent');
+
+    // Build progress dots (only if splash present)
+    if (hasSplash && progress) {
+        slides.forEach((s, i) => {
+            const dot = document.createElement('div'); dot.className = 'splash-dot';
+            if (i === 0) dot.classList.add('active');
+            progress.appendChild(dot);
+        });
+    }
+
+    // Helper: get caption fallback
+    function fallbackCaption(index) {
+        const guests = ['Thalita & Felipe', 'Nosso amor', 'Momentos juntos', 'A nossa história'];
+        const verses = ['"Assim já não são dois, mas uma só carne." — Mateus 19:6'];
+        return guests[index] || verses[0] || '';
+    }
+
+    // Populate background images and captions (if splash present)
+    if (hasSplash) {
+        slides.forEach((slide, idx) => {
+            const src = slide.getAttribute('data-src');
+            const caption = (slide.getAttribute('data-caption') || '').trim() || fallbackCaption(idx);
+            if (src) slide.style.backgroundImage = `url('${src}')`;
+            const captionEl = document.createElement('div'); captionEl.className = 'splash-caption';
+            captionEl.innerText = caption;
+            slide.appendChild(captionEl);
+        });
+    }
+
+    // Config: duration per slide (4-6s recommended)
+    const SLIDE_DURATION = 5000; // 5s default
+    const TRANSITION_BUFFER = 900; // allow time for crossfade
+
+    let current = 0;
+    let running = true;
+
+    function showSlide(index) {
+        slides.forEach((s, i) => {
+            s.classList.toggle('visible', i === index);
+        });
+        // update dots
+        Array.from(progress.children).forEach((d, i) => d.classList.toggle('active', i === index));
+    }
+
+    async function runSlideshow() {
+        if (!hasSplash) return;
+        // start with dark reveal: fade from black to first image
+        splashOverlay.style.background = '#000';
+        showSlide(0);
+
+        // reveal by reducing black overlay via opacity
+        splashOverlay.animate([{opacity:1},{opacity:1}],{duration:10});
+
+        for (let i = 0; i < slides.length; i++) {
+            current = i;
+            showSlide(i);
+            await new Promise(res => setTimeout(res, SLIDE_DURATION));
+        }
+
+        // show final logo frame for a short time
+        slides.forEach(s => s.classList.remove('visible'));
+        if (endFrame) endFrame.style.display = 'flex';
+        await new Promise(res => setTimeout(res, 2500));
+
+        // hide overlay with a gentle fade
+        if (splashOverlay) {
+            splashOverlay.style.transition = 'opacity 0.8s ease';
+            splashOverlay.style.opacity = '0';
+            setTimeout(() => { splashOverlay.style.display = 'none'; splashOverlay.setAttribute('aria-hidden','true'); }, 900);
+        }
+
+        // optionally focus main content
+        if (mainInvite) mainInvite.scrollIntoView({behavior:'smooth'});
+    }
+
+    // Skip button handler
+    const skipBtn = document.getElementById('splashSkipBtn');
+    if (skipBtn) {
+        skipBtn.addEventListener('click', function(){
+            endSlideshowGraceful();
+        });
+    }
+
+    // Allow Escape to skip
+    document.addEventListener('keydown', function(e){ if (e.key === 'Escape') endSlideshowGraceful(); });
+
+    // Start slideshow slightly after DOM ready to ensure images begin loading
+    // If user prefers reduced motion, skip the cinematic slideshow and reveal content immediately
+    const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) {
+        // reveal content immediately
+        endSlideshowImmediate();
+    } else {
+        setTimeout(() => { runSlideshow().catch(e => console.error(e)); }, 300);
+    }
+
+    // helper to immediately end the slideshow and reveal content (used by skip)
+    function endSlideshowImmediate() {
+        if (!splashOverlay) return;
+        splashOverlay.style.display = 'none';
+        splashOverlay.setAttribute('aria-hidden', 'true');
+        if (mainInvite) mainInvite.scrollIntoView({behavior:'auto'});
+    }
+
+    function endSlideshowGraceful() {
+        if (!splashOverlay) return;
+        splashOverlay.style.transition = 'opacity 0.5s ease';
+        splashOverlay.style.opacity = '0';
+        setTimeout(() => { splashOverlay.style.display = 'none'; splashOverlay.setAttribute('aria-hidden','true'); }, 520);
+    }
+
+    // --- RSVP modal flow: intercept accept action if present ---
+    // Observe for the rsvp buttons rendered by the RSVP form inclusion tag
+    function attachRsvpHooks() {
+        // support the existing accept button markup (.accept-btn)
+        const acceptBtn = document.querySelector('.accept-btn');
+        if (acceptBtn) {
+            acceptBtn.addEventListener('click', function(e) {
+                // We'll let the form submission/redirect happen; server will signal to open modal on load.
+                // But also schedule the modal just in case (non-blocking)
+                setTimeout(() => showRsvpModal(), 600);
+            });
+        }
+
+        // Attach to the RSVP form submit as a fallback
+        const rsvpForm = document.getElementById('rsvp-form');
+        if (rsvpForm) {
+            rsvpForm.addEventListener('submit', function(e) {
+                setTimeout(() => showRsvpModal(), 600);
+            });
+        }
+    }
+
+    function showRsvpModal() {
+        const modal = document.getElementById('rsvpModal');
+        if (!modal) return;
+        modal.classList.add('open');
+        modal.setAttribute('aria-hidden','false');
+        // autofocus first field
+        const first = modal.querySelector('input, select, textarea');
+        if (first) first.focus();
+    }
+
+    // modal UI logic
+    const rsvpSkip = document.getElementById('rsvpSkip');
+    const rsvpSave = document.getElementById('rsvpSave');
+    const rsvpModal = document.getElementById('rsvpModal');
+    const genderEl = document.getElementById('gender');
+    const dressSuggestions = document.getElementById('dressSuggestions');
+
+    function updateDressSuggestions() {
+        const val = genderEl.value;
+        let html = '';
+        if (val === 'male') {
+            html = '<strong>Dress code:</strong> Paleta sugerida para homens: ternos azul-marinho, cinza-chumbo, gravatas em tons terrosos.';
+        } else if (val === 'female') {
+            html = '<strong>Dress code:</strong> Paleta sugerida para mulheres: vestidos em tons pastéis, dourados e estampas discretas.';
+        } else if (val === 'other') {
+            html = '<strong>Dress code:</strong> Elegante / formal — escolha o que te fizer sentir especial.';
+        } else {
+            html = '<strong>Dress code:</strong> Elegante / formal.';
+        }
+        dressSuggestions.innerHTML = html;
+    }
+
+    if (genderEl) genderEl.addEventListener('change', updateDressSuggestions);
+    updateDressSuggestions();
+
+    function closeModal() {
+        if (!rsvpModal) return;
+        rsvpModal.classList.remove('open');
+        rsvpModal.setAttribute('aria-hidden','true');
+    }
+
+    rsvpSkip && rsvpSkip.addEventListener('click', function(){ closeModal(); });
+    rsvpSave && rsvpSave.addEventListener('click', function(){
+        // collect fields
+        const dietary = document.getElementById('dietary').value;
+        const music = document.getElementById('music').value;
+        const gender = document.getElementById('gender').value;
+
+        // send via fetch to a simple endpoint if available (assume an endpoint exists at /invitations/{{ invite.pk }}/complete_profile/)
+        const url = window.location.pathname.replace(/\/$/, '') + '/complete_profile/';
+
+        // CSRF helper (reads csrftoken cookie)
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+            return null;
+        }
+        const csrftoken = getCookie('csrftoken');
+
+        fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type':'application/json', 'X-Requested-With':'XMLHttpRequest', 'X-CSRFToken': csrftoken },
+            body: JSON.stringify({ dietary, music, gender })
+        }).then(resp => {
+            // ignore response for now; close modal
+            closeModal();
+            // optionally show a small toast or update the page
+            console.log('Profile saved');
+        }).catch(err => { console.error('Failed to save profile', err); closeModal(); });
+    });
+
+    // Auto-open profile modal if server requested it (rendered by Django)
+    try {
+        const shouldShow = {{ should_show_profile_modal|yesno:"true,false" }};
+        if (shouldShow) {
+            // Wait until the modal functions are defined
+            setTimeout(() => { showRsvpModal(); }, 600);
+        }
+    } catch (err) {
+        // ignore if template var not present
+    }
+
+    // attach hooks once rsvp form renders
+    setTimeout(attachRsvpHooks, 500);
+
 });
 </script>
+
+<script>
+// Inline fallback to open profile modal early if server-side requested it.
++(function(){
+    try {
+        var shouldShow = {{ should_show_profile_modal|yesno:"true,false" }};
+        if (shouldShow) {
+            var modal = document.getElementById('rsvpModal');
+            if (modal) {
+                modal.classList.add('open');
+                modal.setAttribute('aria-hidden','false');
+                var first = modal.querySelector('input, select, textarea');
+                if (first) try { first.focus(); } catch(e){}
+            }
+        }
+    } catch(e) { /* ignore */ }
+})();
+</script>
+
 {% endblock %}

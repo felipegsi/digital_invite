@@ -130,3 +130,163 @@ INFO 2025-09-29 10:42:32,798 basehttp 37820 5996 "GET /invitations/detail/3c9e4f
 INFO 2025-09-29 10:42:49,506 basehttp 37820 5996 "GET /invitations/detail/3c9e4f00-492a-4911-843e-1b10aa07ad40/ HTTP/1.1" 200 23328
 INFO 2025-09-29 10:43:46,929 basehttp 37820 34948 "POST /invitations/respond/3c9e4f00-492a-4911-843e-1b10aa07ad40/ HTTP/1.1" 302 0
 INFO 2025-09-29 10:43:46,949 basehttp 37820 34948 "GET /invitations/detail/3c9e4f00-492a-4911-843e-1b10aa07ad40/ HTTP/1.1" 200 22352
+INFO 2025-09-29 15:52:16,285 autoreload 15432 9128 Watching for file changes with StatReloader
+WARNING 2025-09-29 15:52:18,878 log 15432 37748 Not Found: /
+WARNING 2025-09-29 15:52:18,878 basehttp 15432 37748 "GET / HTTP/1.1" 404 2795
+ERROR 2025-09-29 15:52:25,269 views 15432 37748 Erro ao carregar convite 3c9e4f00-492a-4911-843e-1b10aa07ad40: 'rsvp_form' did not receive value(s) for the argument(s): 'invite'
+INFO 2025-09-29 15:52:25,304 basehttp 15432 37748 "GET /invitations/detail/3c9e4f00-492a-4911-843e-1b10aa07ad40/ HTTP/1.1" 200 2286
+WARNING 2025-09-29 15:52:25,448 log 15432 37748 Not Found: /favicon.ico
+WARNING 2025-09-29 15:52:25,449 basehttp 15432 37748 "GET /favicon.ico HTTP/1.1" 404 2846
+ERROR 2025-09-29 15:52:31,385 views 15432 37748 Erro ao carregar convite 3c9e4f00-492a-4911-843e-1b10aa07ad40: 'rsvp_form' did not receive value(s) for the argument(s): 'invite'
+INFO 2025-09-29 15:52:31,386 basehttp 15432 37748 "GET /invitations/detail/3c9e4f00-492a-4911-843e-1b10aa07ad40/ HTTP/1.1" 200 2286
+ERROR 2025-09-29 16:14:23,333 log 30828 20280 Invalid HTTP_HOST header: 'testserver'. You may need to add 'testserver' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "C:\Users\felip\OneDriveUniversity\Desktop\Projects\digital_invite\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\felip\OneDriveUniversity\Desktop\Projects\digital_invite\.venv\Lib\site-packages\django\utils\deprecation.py", line 119, in __call__
+    response = self.process_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\felip\OneDriveUniversity\Desktop\Projects\digital_invite\.venv\Lib\site-packages\django\middleware\common.py", line 48, in process_request
+    host = request.get_host()
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\felip\OneDriveUniversity\Desktop\Projects\digital_invite\.venv\Lib\site-packages\django\http\request.py", line 202, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'testserver'. You may need to add 'testserver' to ALLOWED_HOSTS.
+INFO 2025-09-29 16:25:07,680 autoreload 15100 29064 Watching for file changes with StatReloader
+INFO 2025-09-29 16:25:20,428 basehttp 15432 21340 "GET /invitations/detail/3c9e4f00-492a-4911-843e-1b10aa07ad40/ HTTP/1.1" 200 37422
+INFO 2025-09-29 16:25:45,161 basehttp 15432 21340 "GET /guests/create/ HTTP/1.1" 200 2745
+INFO 2025-09-29 16:26:52,079 autoreload 29792 8352 Watching for file changes with StatReloader
+WARNING 2025-09-29 16:26:57,432 log 15432 21340 Not Found: /
+WARNING 2025-09-29 16:26:57,439 basehttp 15432 21340 "GET / HTTP/1.1" 404 2795
+INFO 2025-09-29 16:27:07,657 basehttp 15432 21340 "GET /invitations/detail/3c9e4f00-492a-4911-843e-1b10aa07ad40/ HTTP/1.1" 200 37422
+WARNING 2025-09-29 16:27:09,049 log 15432 21340 Not Found: /favicon.ico
+WARNING 2025-09-29 16:27:09,049 basehttp 15432 21340 "GET /favicon.ico HTTP/1.1" 404 2846
+INFO 2025-09-29 16:28:31,545 basehttp 15432 21340 "GET /guests/create/ HTTP/1.1" 200 2745
+INFO 2025-09-29 16:31:23,460 basehttp 15432 21340 "POST /guests/create/ HTTP/1.1" 302 0
+INFO 2025-09-29 16:31:23,474 basehttp 15432 21340 "GET /guests/success/9494fb32-d29a-427e-b04a-75726e70ffd7/ HTTP/1.1" 200 785
+INFO 2025-09-29 16:31:26,585 basehttp 15432 21340 "GET /invitations/create/ HTTP/1.1" 200 3160
+INFO 2025-09-29 16:31:43,489 basehttp 15432 21340 "POST /invitations/create/ HTTP/1.1" 302 0
+INFO 2025-09-29 16:31:43,505 basehttp 15432 21340 "GET /invitations/detail/575b7696-9f5c-48bb-83f2-8cf8c4c95f2c/ HTTP/1.1" 200 36056
+INFO 2025-09-29 16:32:11,057 basehttp 15432 21340 "POST /invitations/respond/575b7696-9f5c-48bb-83f2-8cf8c4c95f2c/ HTTP/1.1" 302 0
+INFO 2025-09-29 16:32:11,074 basehttp 15432 21340 "GET /invitations/detail/575b7696-9f5c-48bb-83f2-8cf8c4c95f2c/ HTTP/1.1" 200 35089
+INFO 2025-09-29 17:04:47,273 autoreload 29792 8352 C:\Users\felip\OneDriveUniversity\Desktop\Projects\digital_invite\apps\invitations\views.py changed, reloading.
+INFO 2025-09-29 17:04:47,525 autoreload 15432 9128 C:\Users\felip\OneDriveUniversity\Desktop\Projects\digital_invite\apps\invitations\views.py changed, reloading.
+INFO 2025-09-29 17:04:48,557 autoreload 27836 23304 Watching for file changes with StatReloader
+INFO 2025-09-29 17:04:48,747 autoreload 25216 36280 Watching for file changes with StatReloader
+INFO 2025-09-29 17:32:09,673 basehttp 27836 19180 "GET /invitations/detail/3c9e4f00-492a-4911-843e-1b10aa07ad40/ HTTP/1.1" 200 37422
+WARNING 2025-09-29 18:18:05,350 log 27836 21676 Not Found: /
+WARNING 2025-09-29 18:18:05,353 basehttp 27836 21676 "GET / HTTP/1.1" 404 2795
+INFO 2025-09-29 18:18:13,807 basehttp 27836 21676 "GET /invitations/detail/7ed4dd1e-e08d-46e8-9da9-d5217645ec7a/ HTTP/1.1" 200 37426
+INFO 2025-09-29 18:18:30,007 basehttp 27836 21676 "GET /admin/ HTTP/1.1" 200 10524
+INFO 2025-09-29 18:18:32,521 basehttp 27836 21676 "GET /admin/invitations/invite/ HTTP/1.1" 200 18242
+INFO 2025-09-29 18:18:32,624 basehttp 27836 21676 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-09-29 18:18:36,153 basehttp 27836 21676 "GET /admin/invitations/invite/7/change/ HTTP/1.1" 200 21965
+INFO 2025-09-29 18:18:36,193 basehttp 27836 21676 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-09-29 18:18:49,408 basehttp 27836 21676 "GET /invitations/detail/42bf679d-ca52-4581-a1b5-9bc31d23307d HTTP/1.1" 301 0
+INFO 2025-09-29 18:18:49,425 basehttp 27836 26608 "GET /invitations/detail/42bf679d-ca52-4581-a1b5-9bc31d23307d/ HTTP/1.1" 200 28840
+INFO 2025-09-29 18:18:55,796 basehttp 27836 26608 "POST /invitations/respond/42bf679d-ca52-4581-a1b5-9bc31d23307d/ HTTP/1.1" 302 0
+INFO 2025-09-29 18:18:55,810 basehttp 27836 26608 "GET /invitations/detail/42bf679d-ca52-4581-a1b5-9bc31d23307d/ HTTP/1.1" 200 27864
+INFO 2025-09-29 18:25:55,980 autoreload 25216 36280 C:\Users\felip\OneDriveUniversity\Desktop\Projects\digital_invite\apps\invitations\views.py changed, reloading.
+INFO 2025-09-29 18:25:56,757 autoreload 27836 23304 C:\Users\felip\OneDriveUniversity\Desktop\Projects\digital_invite\apps\invitations\views.py changed, reloading.
+INFO 2025-09-29 18:25:57,671 autoreload 31552 424 Watching for file changes with StatReloader
+INFO 2025-09-29 18:25:57,886 autoreload 31104 27044 Watching for file changes with StatReloader
+INFO 2025-09-29 18:33:38,269 autoreload 1692 32048 Watching for file changes with StatReloader
+WARNING 2025-09-29 18:33:43,764 log 31552 9444 Not Found: /
+WARNING 2025-09-29 18:33:43,765 basehttp 31552 9444 "GET / HTTP/1.1" 404 2795
+INFO 2025-09-29 18:33:43,969 autoreload 1692 32048 C:\Users\felip\OneDriveUniversity\Desktop\Projects\digital_invite\apps\invitations\views.py changed, reloading.
+INFO 2025-09-29 18:33:44,440 autoreload 31552 424 C:\Users\felip\OneDriveUniversity\Desktop\Projects\digital_invite\apps\invitations\views.py changed, reloading.
+INFO 2025-09-29 18:33:44,574 autoreload 31104 27044 C:\Users\felip\OneDriveUniversity\Desktop\Projects\digital_invite\apps\invitations\views.py changed, reloading.
+INFO 2025-09-29 18:33:45,360 autoreload 9752 18296 Watching for file changes with StatReloader
+INFO 2025-09-29 18:33:45,961 autoreload 4216 24888 Watching for file changes with StatReloader
+INFO 2025-09-29 18:33:46,175 autoreload 1608 264 Watching for file changes with StatReloader
+INFO 2025-09-29 18:33:46,875 basehttp 9752 34140 "GET /invitations/detail/42bf679d-ca52-4581-a1b5-9bc31d23307d/ HTTP/1.1" 200 35914
+INFO 2025-09-29 18:34:13,117 basehttp 9752 34140 "POST /invitations/detail/42bf679d-ca52-4581-a1b5-9bc31d23307d/complete_profile/ HTTP/1.1" 200 17
+INFO 2025-09-29 18:34:16,176 basehttp 9752 34140 "GET /invitations/detail/42bf679d-ca52-4581-a1b5-9bc31d23307d/ HTTP/1.1" 200 35916
+INFO 2025-09-29 18:34:45,430 basehttp 9752 34140 "GET /guests/create/ HTTP/1.1" 200 2745
+INFO 2025-09-29 18:35:14,858 basehttp 9752 34140 "POST /guests/create/ HTTP/1.1" 302 0
+INFO 2025-09-29 18:35:14,871 basehttp 9752 34140 "GET /guests/success/34e9d424-660c-44bf-9b47-57f9ebd3efc7/ HTTP/1.1" 200 788
+INFO 2025-09-29 18:35:16,173 basehttp 9752 34140 "GET /invitations/create/ HTTP/1.1" 200 3245
+INFO 2025-09-29 18:35:33,488 basehttp 9752 34140 "POST /invitations/create/ HTTP/1.1" 302 0
+INFO 2025-09-29 18:35:33,508 basehttp 9752 34140 "GET /invitations/detail/2c557c27-0d2f-40af-86bb-877347564c9d/ HTTP/1.1" 200 38006
+INFO 2025-09-29 18:35:38,695 basehttp 9752 34140 "GET /invitations/detail/2c557c27-0d2f-40af-86bb-877347564c9d/ HTTP/1.1" 200 38006
+INFO 2025-09-29 18:35:47,670 basehttp 9752 34140 "GET /invitations/detail/2c557c27-0d2f-40af-86bb-877347564c9d/ HTTP/1.1" 200 38006
+WARNING 2025-09-29 18:35:49,197 log 9752 34140 Not Found: /favicon.ico
+WARNING 2025-09-29 18:35:49,197 basehttp 9752 34140 "GET /favicon.ico HTTP/1.1" 404 2846
+INFO 2025-09-29 18:46:13,077 basehttp 9752 30908 "GET /invitations/detail/2c557c27-0d2f-40af-86bb-877347564c9d/ HTTP/1.1" 200 38083
+WARNING 2025-09-29 18:46:14,776 log 9752 30908 Not Found: /favicon.ico
+WARNING 2025-09-29 18:46:14,777 basehttp 9752 30908 "GET /favicon.ico HTTP/1.1" 404 2846
+INFO 2025-09-29 18:46:16,505 basehttp 9752 30908 "GET /invitations/detail/2c557c27-0d2f-40af-86bb-877347564c9d/ HTTP/1.1" 200 38083
+INFO 2025-09-29 18:46:26,655 basehttp 9752 30908 "GET /invitations/detail/1453aa0b-276c-4991-8b8b-8007223106a9/ HTTP/1.1" 200 38388
+INFO 2025-09-29 18:46:36,350 basehttp 9752 30908 "GET /invitations/detail/1453aa0b-276c-4991-8b8b-8007223106a9/ HTTP/1.1" 200 38388
+INFO 2025-09-29 18:48:04,675 autoreload 20512 33104 Watching for file changes with StatReloader
+WARNING 2025-09-29 18:48:06,127 log 4216 22524 Not Found: /
+WARNING 2025-09-29 18:48:06,128 basehttp 4216 22524 "GET / HTTP/1.1" 404 2795
+INFO 2025-09-29 18:48:11,143 basehttp 4216 22524 "GET /guests/create/ HTTP/1.1" 200 2745
+INFO 2025-09-29 18:48:45,436 basehttp 4216 22524 "POST /guests/create/ HTTP/1.1" 302 0
+INFO 2025-09-29 18:48:45,447 basehttp 4216 22524 "GET /guests/success/5b2c0e1b-9973-4424-88ad-2eced3b1492c/ HTTP/1.1" 200 785
+INFO 2025-09-29 18:48:46,744 basehttp 4216 22524 "GET /invitations/create/ HTTP/1.1" 200 3327
+INFO 2025-09-29 18:48:55,974 basehttp 4216 22524 "POST /invitations/create/ HTTP/1.1" 302 0
+INFO 2025-09-29 18:48:55,998 basehttp 4216 22524 "GET /invitations/detail/dfa0ecd0-6443-4a3b-9422-c07ad8983c94/ HTTP/1.1" 200 39115
+INFO 2025-09-29 18:49:05,715 basehttp 4216 22524 "POST /invitations/respond/dfa0ecd0-6443-4a3b-9422-c07ad8983c94/ HTTP/1.1" 302 0
+INFO 2025-09-29 18:49:05,731 basehttp 4216 22524 "GET /invitations/detail/dfa0ecd0-6443-4a3b-9422-c07ad8983c94/?profile_modal=1 HTTP/1.1" 200 38137
+INFO 2025-09-29 19:03:45,866 autoreload 33872 35548 Watching for file changes with StatReloader
+WARNING 2025-09-29 19:03:49,247 log 4216 31872 Not Found: /
+WARNING 2025-09-29 19:03:49,247 basehttp 4216 31872 "GET / HTTP/1.1" 404 2795
+INFO 2025-09-29 19:03:53,261 basehttp 4216 31872 "GET /invitations/detail/dfa0ecd0-6443-4a3b-9422-c07ad8983c94/?profile_modal=1 HTTP/1.1" 200 32564
+WARNING 2025-09-29 19:03:53,305 basehttp 4216 31872 "GET /static/css/tailwind.css HTTP/1.1" 404 1862
+INFO 2025-09-29 19:04:11,817 basehttp 4216 10420 "GET /invitations/detail/dfa0ecd0-6443-4a3b-9422-c07ad8983c94/ HTTP/1.1" 200 32564
+WARNING 2025-09-29 19:04:11,853 basehttp 4216 10420 "GET /static/css/tailwind.css HTTP/1.1" 404 1862
+INFO 2025-09-29 19:04:19,125 basehttp 4216 32176 "GET /invitations/detail/1453aa0b-276c-4991-8b8b-8007223106a9/ HTTP/1.1" 200 32815
+WARNING 2025-09-29 19:04:19,160 basehttp 4216 32176 "GET /static/css/tailwind.css HTTP/1.1" 404 1862
+INFO 2025-09-29 21:58:36,249 basehttp 4216 7068 "GET /invitations/detail/1453aa0b-276c-4991-8b8b-8007223106a9/complete_profile HTTP/1.1" 301 0
+WARNING 2025-09-29 21:58:36,306 log 4216 5136 Method Not Allowed: /invitations/detail/1453aa0b-276c-4991-8b8b-8007223106a9/complete_profile/
+WARNING 2025-09-29 21:58:36,315 basehttp 4216 5136 "GET /invitations/detail/1453aa0b-276c-4991-8b8b-8007223106a9/complete_profile/ HTTP/1.1" 405 49
+INFO 2025-09-29 22:00:53,460 basehttp 4216 5136 "GET /invitations/respond/dfa0ecd0-6443-4a3b-9422-c07ad8983c94/ HTTP/1.1" 200 32566
+WARNING 2025-09-29 22:00:53,589 basehttp 4216 5136 "GET /static/css/tailwind.css HTTP/1.1" 404 1862
+INFO 2025-09-29 22:01:29,289 basehttp 4216 23908 "GET /guests/create/ HTTP/1.1" 200 2745
+INFO 2025-09-29 22:02:22,449 basehttp 4216 23908 - Broken pipe from ('127.0.0.1', 55536)
+INFO 2025-09-29 22:02:26,521 basehttp 4216 27992 "POST /guests/create/ HTTP/1.1" 302 0
+INFO 2025-09-29 22:02:26,550 basehttp 4216 27992 "GET /guests/success/865806dd-1535-4561-a6b6-0ad5e9e9fbef/ HTTP/1.1" 200 787
+INFO 2025-09-29 22:02:45,290 basehttp 4216 27992 "GET /invitations/create/ HTTP/1.1" 200 3495
+WARNING 2025-09-29 22:03:14,657 log 4216 27992 Not Found: /Aadmin
+WARNING 2025-09-29 22:03:14,659 basehttp 4216 27992 "GET /Aadmin HTTP/1.1" 404 2831
+INFO 2025-09-29 22:03:20,719 basehttp 4216 27992 "GET /admin/ HTTP/1.1" 200 10524
+INFO 2025-09-29 22:03:20,824 basehttp 4216 27992 "GET /static/admin/css/base.css HTTP/1.1" 304 0
+INFO 2025-09-29 22:03:20,833 basehttp 4216 8792 "GET /static/admin/css/dark_mode.css HTTP/1.1" 304 0
+INFO 2025-09-29 22:03:20,833 basehttp 4216 19156 "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 304 0
+INFO 2025-09-29 22:03:20,833 basehttp 4216 8764 "GET /static/admin/css/dashboard.css HTTP/1.1" 304 0
+INFO 2025-09-29 22:03:20,845 basehttp 4216 8164 "GET /static/admin/css/responsive.css HTTP/1.1" 304 0
+INFO 2025-09-29 22:03:20,845 basehttp 4216 31284 "GET /static/admin/js/theme.js HTTP/1.1" 304 0
+INFO 2025-09-29 22:03:20,865 basehttp 4216 31284 "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 304 0
+INFO 2025-09-29 22:03:20,876 basehttp 4216 31284 "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 304 0
+INFO 2025-09-29 22:03:27,744 basehttp 4216 31284 "GET /admin/invitations/invite/ HTTP/1.1" 200 19129
+INFO 2025-09-29 22:03:27,858 basehttp 4216 31284 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-09-29 22:03:36,452 basehttp 4216 31284 "GET /admin/guests/guest/ HTTP/1.1" 200 19294
+INFO 2025-09-29 22:03:36,561 basehttp 4216 31284 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-09-29 22:03:39,206 basehttp 4216 31284 "GET /admin/guests/guest/16/change/ HTTP/1.1" 200 18610
+INFO 2025-09-29 22:03:39,286 basehttp 4216 31284 "GET /static/admin/css/forms.css HTTP/1.1" 304 0
+INFO 2025-09-29 22:03:39,296 basehttp 4216 8164 "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 304 0
+INFO 2025-09-29 22:03:39,300 basehttp 4216 8164 "GET /static/admin/css/widgets.css HTTP/1.1" 304 0
+INFO 2025-09-29 22:03:39,306 basehttp 4216 31284 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-09-29 22:03:39,325 basehttp 4216 31284 "GET /static/admin/js/change_form.js HTTP/1.1" 304 0
+INFO 2025-09-29 22:03:43,360 basehttp 4216 31284 "GET /admin/guests/guest/16/delete/ HTTP/1.1" 200 10206
+INFO 2025-09-29 22:03:43,556 basehttp 4216 31284 "GET /static/admin/js/cancel.js HTTP/1.1" 200 884
+INFO 2025-09-29 22:03:44,604 basehttp 4216 31284 "POST /admin/guests/guest/16/delete/ HTTP/1.1" 302 0
+INFO 2025-09-29 22:03:44,665 basehttp 4216 31284 "GET /admin/guests/guest/ HTTP/1.1" 200 19074
+INFO 2025-09-29 22:03:44,748 basehttp 4216 31284 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-09-29 22:03:48,144 basehttp 4216 31284 "GET /invitations/create/ HTTP/1.1" 200 3411
+INFO 2025-09-29 22:03:51,319 basehttp 4216 31284 "GET /invitations/create/ HTTP/1.1" 200 3411
+INFO 2025-09-29 22:04:04,652 basehttp 4216 31284 "POST /invitations/create/ HTTP/1.1" 302 0
+INFO 2025-09-29 22:04:04,676 basehttp 4216 31284 "GET /invitations/detail/efbaf5f8-d5db-4506-b255-3ded122cfead/ HTTP/1.1" 200 34510
+WARNING 2025-09-29 22:04:04,741 basehttp 4216 31284 "GET /static/css/tailwind.css HTTP/1.1" 404 1862
+INFO 2025-09-29 22:04:25,074 basehttp 4216 8164 "GET /invitations/detail/efbaf5f8-d5db-4506-b255-3ded122cfead/ HTTP/1.1" 200 34510
+WARNING 2025-09-29 22:04:25,195 basehttp 4216 8164 "GET /static/css/tailwind.css HTTP/1.1" 404 1862
+INFO 2025-09-29 22:05:17,389 basehttp 4216 8764 "GET /invitations/detail/efbaf5f8-d5db-4506-b255-3ded122cfead/ HTTP/1.1" 200 34510
+WARNING 2025-09-29 22:05:19,557 basehttp 4216 19156 "GET /static/css/tailwind.css HTTP/1.1" 404 1862
+INFO 2025-09-29 22:05:31,179 basehttp 4216 8764 "GET /invitations/detail/efbaf5f8-d5db-4506-b255-3ded122cfead/ HTTP/1.1" 200 34510
+WARNING 2025-09-29 22:05:31,283 basehttp 4216 8764 "GET /static/css/tailwind.css HTTP/1.1" 404 1862
+INFO 2025-09-29 22:05:38,480 basehttp 4216 27992 "GET /invitations/detail/efbaf5f8-d5db-4506-b255-3ded122cfead/ HTTP/1.1" 200 34510
+WARNING 2025-09-29 22:05:38,589 basehttp 4216 27992 "GET /static/css/tailwind.css HTTP/1.1" 404 1862
+INFO 2025-09-29 22:06:02,718 basehttp 4216 37664 "GET /invitations/detail/efbaf5f8-d5db-4506-b255-3ded122cfead/ HTTP/1.1" 200 34510
+WARNING 2025-09-29 22:06:02,835 basehttp 4216 37664 "GET /static/css/tailwind.css HTTP/1.1" 404 1862

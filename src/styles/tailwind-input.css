@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom utilities or component styles can go here */
+:root {
+  --brand-yellow: #d4af37;
+}
+
+/* Example small component using Tailwind's @apply if you later process with PostCSS */
+.btn-primary {
+  @apply bg-yellow-500 text-white px-4 py-2 rounded;
+}
+
